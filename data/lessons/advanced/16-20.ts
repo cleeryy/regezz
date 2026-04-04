@@ -188,6 +188,14 @@ export const advancedLessons2: Lesson[] = [
       {
         type: 'text',
         content: 'Tip: When analyzing logs, combine regex with tools like grep, awk, or write a script. Regex extracts, tools process.'
+      },
+      {
+        type: 'text',
+        content: '**Real-world use cases:**\n• Security monitoring: Extract suspicious IPs attempting brute force attacks\n• Performance analysis: Find slow requests by matching high response times in logs\n• Debugging: Track specific user requests through log trails using session IDs\n• Compliance auditing: Extract all access to sensitive resources for GDPR/HIPAA\n• Error tracking: Count frequency of specific error codes to identify systemic issues\n• Capacity planning: Parse request rates over time to scale infrastructure appropriately'
+      },
+      {
+        type: 'text',
+        content: '**Connection to Lesson 17**: Log analysis extends the URL parsing skills from Lesson 17 by applying them to structured log formats. While Lesson 17 focused on extracting URL components, this lesson shows how to parse entire log lines with multiple fields using capturing groups. The IP address pattern uses non-capturing groups (Lesson 11) and word boundaries (Lesson 9), demonstrating how regex features combine in real-world data extraction scenarios.'
       }
     ],
     exercise: {
@@ -262,6 +270,14 @@ export const advancedLessons2: Lesson[] = [
         content: 'Clean leading/trailing whitespace',
         code: '^\\s+|\\s+$',
         explanation: 'Matches whitespace at start OR end. Replace with empty string. Equivalent to .trim() in most languages.'
+      },
+      {
+        type: 'text',
+        content: '**Real-world use cases:**\n• ETL pipelines: Clean imported data from CSV/Excel before database insertion\n• User input sanitization: Remove special characters from search queries to prevent injection\n• Data migration: Standardize phone numbers and addresses across legacy systems\n• Report generation: Normalize whitespace in free-text fields for consistent display\n• API integration: Clean third-party data that doesn\'t match your schema\n• Search indexing: Strip punctuation and normalize case for better full-text search'
+      },
+      {
+        type: 'text',
+        content: '**Connection to Lesson 7**: Data cleaning applies character class mastery from Lesson 7 to real-world sanitization tasks. While Lesson 7 introduced `[a-z]` and `[^0-9]`, this lesson shows how to combine them with anchors (Lesson 9) and quantifiers (Lesson 6) to create powerful cleaning patterns. The phone number normalization pattern `^\\d{3}[\\s.-]?\\d{3}[\\s.-]?\\d{4}$` demonstrates optional separators, a technique that builds on all previous grouping and alternation concepts.'
       }
     ],
     exercise: {
@@ -338,6 +354,14 @@ export const advancedLessons2: Lesson[] = [
       {
         type: 'text',
         content: 'Important: Always validate passwords on the server side. Client-side validation is for UX, not security.'
+      },
+      {
+        type: 'text',
+        content: '**Real-world use cases:**\n• User registration: Enforce organization password policies before account creation\n• Password reset: Validate new passwords meet complexity requirements\n• Enterprise SSO: Integrate with corporate password standards\n• Compliance: Meet regulatory requirements like PCI-DSS, NIST guidelines\n• Breach prevention: Block common weak patterns and compromised passwords\n• Self-service portals: Provide real-time feedback as users type their password'
+      },
+      {
+        type: 'text',
+        content: '**Connection to Lesson 14**: Password validation is a perfect showcase for lookaheads from Lesson 14. The pattern `^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$` uses multiple positive lookaheads to enforce AND conditions - requiring lowercase, uppercase, and digits simultaneously. This builds on Lesson 19\'s input validation concepts but uses advanced lookaround techniques to check multiple constraints at the same position without consuming characters.'
       }
     ],
     exercise: {

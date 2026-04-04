@@ -27,6 +27,14 @@ export const creativeLessons: Lesson[] = [
       {
         type: 'text',
         content: 'Regex Golf teaches you about: negative patterns, clever character classes, and thinking about what makes sets different.'
+      },
+      {
+        type: 'text',
+        content: '**Real-world use cases:**\n• Input validation: Craft minimal patterns to validate specific formats (ZIP codes, product codes)\n• Security filtering: Create tight allowlists for safe patterns in user input\n• Code golf competitions: Write shortest possible code, including regex patterns\n• Pattern optimization: Learn to make existing patterns more efficient and concise\n• Teaching tool: Demonstrates regex engine behavior and matching strategies\n• Test case design: Helps think about edge cases and pattern boundaries'
+      },
+      {
+        type: 'text',
+        content: '**Connection to Lesson 13**: Regex Golf builds directly on alternation skills from Lesson 13. The game often requires clever use of character classes and alternation to distinguish between similar strings. It also reinforces grouping concepts from Lesson 10 and teaches pattern optimization - making patterns shorter while maintaining correctness. This creative application of core regex skills develops deeper intuition for how patterns behave.'
       }
     ],
     exercise: {
@@ -87,6 +95,14 @@ export const creativeLessons: Lesson[] = [
       {
         type: 'text',
         content: 'For longer palindromes, you\'d need more groups. But this gets unwieldy quickly - regex isn\'t the best tool for general palindrome detection!'
+      },
+      {
+        type: 'text',
+        content: '**Real-world use cases:**\n• DNA sequence analysis: Find palindromic sequences in genetic code\n• Word games: Validate palindrome words in puzzles and quizzes\n• Text analysis: Detect palindromic patterns in literature or code\n• Cryptography: Some encryption schemes use palindromic properties\n• Pattern recognition: Identify symmetric structures in data\n• Educational tools: Teach recursion and symmetry concepts'
+      },
+      {
+        type: 'text',
+        content: '**Connection to Lesson 12**: Palindromes are a direct application of backreferences from Lesson 12. The pattern `^(.)(.)\\1$` for 3-character palindromes uses capturing groups and backreferences (`\\1`) to enforce that the first and last characters match. This creative application demonstrates how backreferences can match repeated patterns at arbitrary distances, not just immediate duplicates. It\'s a fun way to master the backreference syntax introduced in Lesson 12.'
       }
     ],
     exercise: {
@@ -146,6 +162,14 @@ export const creativeLessons: Lesson[] = [
       {
         type: 'text',
         content: 'In the word "abracadabra" you see the pattern: "abr" ... "a" ... "cada" ... "bra"? No, that\'s not quite it. Better example: "museum" where you see nothing. Actually ABBA the band name is the perfect example: A-B-B-A!'
+      },
+      {
+        type: 'text',
+        content: '**Real-world use cases:**\n• Music analysis: Detect ABBA structures in musical compositions\n• Data compression: Identify repeating patterns for efficient encoding\n• Palindrome variants: Find ABBA patterns as a palindrome subclass\n• Symmetry detection: Discover mirrored segments in sequences\n• Code refactoring: Spot duplicated code blocks with slight variations\n• Pattern matching competitions: Creative challenges in regex tournaments'
+      },
+      {
+        type: 'text',
+        content: '**Connection to Lesson 12**: The ABBA pattern is an advanced application of backreferences from Lesson 12. While simple palindromes (Bonus 2) used `\\1` to match single characters, ABBA uses multiple groups (`\\1`, `\\2`) to match multi-character segments in mirrored positions. The pattern `^(.+)(.+)(\\2)(\\1)$` demonstrates nested capturing and referencing in complex ways, pushing backreference skills beyond basic duplication detection.'
       }
     ],
     exercise: {
@@ -208,6 +232,14 @@ export const creativeLessons: Lesson[] = [
       {
         type: 'text',
         content: 'Caution: These patterns can fail on edge cases like comment delimiters inside strings. For production parsers, use proper parsers, not regex.'
+      },
+      {
+        type: 'text',
+        content: '**Real-world use cases:**\n• Code analysis tools: Extract comments for documentation generators\n• Comment stripping: Remove comments before minification or obfuscation\n• Security scanning: Detect suspicious comments containing passwords or keys\n• Documentation extraction: Pull TODOs and FIXMEs for technical debt tracking\n• Code metrics: Count comment-to-code ratios for quality assessment\n• Legacy code understanding: Extract historical comments when documenting old systems'
+      },
+      {
+        type: 'text',
+        content: '**Connection to Lesson 8**: Matching comments builds on greedy vs lazy matching from Lesson 8. The pattern `/\\*[\\s\\S]*?\\*/` uses lazy quantifier `*?` to match the shortest possible comment rather than consuming everything until the last `*/`. This also uses the `[\\s\\S]` trick to match any character including newlines, combining character class knowledge from Lesson 7 with quantifiers from Lesson 6. It\'s a practical application that demonstrates why lazy matching matters in real parsing scenarios.'
       }
     ],
     exercise: {
@@ -267,6 +299,14 @@ export const creativeLessons: Lesson[] = [
       {
         type: 'text',
         content: 'For full Markdown parsing, use a proper parser. Regex works for simple cases but fails on edge cases like escaped brackets or nested links.'
+      },
+      {
+        type: 'text',
+        content: '**Real-world use cases:**\n• Content scrapers: Extract links from Markdown documentation or blogs\n• Link validation: Check that all Markdown links have valid URLs\n• Documentation processors: Convert Markdown to HTML with proper link handling\n• SEO analysis: Crawl Markdown-based sites and extract internal/external links\n• Static site generators: Process Markdown frontmatter and content\n• Migration tools: Convert Markdown links during platform migrations'
+      },
+      {
+        type: 'text',
+        content: '**Connection to Lesson 10**: Markdown link parsing demonstrates advanced capturing groups from Lesson 10, using multiple groups to extract both link text and URL. The pattern `\\[([^\\]]+)\\]\\(([^)]+)\\)` uses nested capturing groups and escaping (Lesson 7) to handle the special Markdown syntax. This builds on all previous grouping skills and shows how regex can parse semi-structured text formats, though Lesson 4\'s caution about regex for full parsing still applies.'
       }
     ],
     exercise: {
@@ -332,6 +372,14 @@ export const creativeLessons: Lesson[] = [
       {
         type: 'text',
         content: 'For production, consider libraries that handle emoji complexity. Regex can match them but the rules are intricate.'
+      },
+      {
+        type: 'text',
+        content: '**Real-world use cases:**\n• Social media analytics: Count emoji usage in posts for sentiment analysis\n• Chat applications: Filter or highlight emojis in messaging interfaces\n• Content moderation: Detect inappropriate emoji sequences\n• International UX: Ensure emoji render correctly across platforms\n• Data visualization: Create emoji-based metrics dashboards\n• Accessibility: Convert emojis to text descriptions for screen readers'
+      },
+      {
+        type: 'text',
+        content: '**Connection to Lesson 15**: Emoji matching directly applies Unicode property escapes (`\\p{Emoji}`) from Lesson 15\'s Unicode section. This demonstrates how Unicode mode (the `u` flag) enables matching international characters beyond basic ASCII. The lesson also touches on performance considerations when dealing with complex Unicode sequences, connecting back to Lesson 15\'s optimization tips. It\'s a practical application showing regex\'s power with modern international text.'
       }
     ],
     exercise: {
@@ -392,6 +440,14 @@ export const creativeLessons: Lesson[] = [
       {
         type: 'text',
         content: 'Regex is a powerful tool for cryptanalysis and pattern extraction. Combine with programming for complex decoding.'
+      },
+      {
+        type: 'text',
+        content: '**Real-world use cases:**\n• Steganography: Extract hidden messages from text carriers\n• Forensic analysis: Find concealed data in seized documents\n• Puzzle games: Create and solve regex-based escape rooms\n• CTF challenges: Capture the flag competitions often use hidden message patterns\n• Data recovery: Extract meaningful patterns from corrupted or obfuscated data\n• Educational puzzles: Teach pattern recognition through games'
+      },
+      {
+        type: 'text',
+        content: '**Connection to Lesson 10**: Hidden message extraction showcases advanced capturing group techniques from Lesson 10, particularly using word boundaries (`\\b`) and character classes to isolate specific characters. The pattern `[A-Z]` for capitals is simple, but combined with Lesson 12\'s backreferences and Lesson 14\'s lookarounds, you can create sophisticated extraction patterns. This creative application demonstrates regex\'s power beyond typical validation into the realm of pattern discovery and decoding.'
       }
     ],
     exercise: {
