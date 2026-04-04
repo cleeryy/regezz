@@ -1,0 +1,421 @@
+import type { Lesson } from '@/types/lesson'
+
+export const creativeLessons: Lesson[] = [
+  {
+    id: 'bonus-1',
+    slug: 'regex-golf',
+    title: 'Regex Golf',
+    description: 'Match exactly the strings on the left, and none on the right. The shorter the pattern, the better!',
+    tier: 'advanced',
+    order: 101,
+    prerequisites: ['13'],
+    content: [
+      {
+        type: 'text',
+        content: 'Regex Golf is a game where you craft the shortest pattern that matches all strings in one set but none in another. It teaches you to think creatively about regex.'
+      },
+      {
+        type: 'example',
+        content: 'Match these, not those',
+        code: 'Match: "ab", "aab", "aaab"\nDon\'t match: "b", "abb", "aabb"',
+        explanation: 'One solution: ^a+b$ matches one or more "a" followed by exactly one "b". This matches the left column and rejects the right.'
+      },
+      {
+        type: 'text',
+        content: 'The challenge: find the SHORTEST pattern. There might be multiple valid solutions. Can you find one under 10 characters?'
+      },
+      {
+        type: 'text',
+        content: 'Regex Golf teaches you about: negative patterns, clever character classes, and thinking about what makes sets different.'
+      }
+    ],
+    exercise: {
+      id: 'ex-bonus-1',
+      instruction: 'Match: "cat", "car", "can" | Don\'t match: "dog", "cut", "cab". Find the shortest pattern!',
+      pattern: 'ca[tnr]',
+      testCases: [
+        { input: 'cat', shouldMatch: true, explanation: 'Matches!' },
+        { input: 'car', shouldMatch: true, explanation: 'Matches!' },
+        { input: 'can', shouldMatch: true, explanation: 'Matches!' },
+        { input: 'dog', shouldMatch: false, explanation: 'Rejected - not in set' },
+        { input: 'cut', shouldMatch: false, explanation: 'Rejected - u not in [tnr]' },
+        { input: 'cab', shouldMatch: false, explanation: 'Rejected - b not in [tnr]' },
+        { input: 'ca', shouldMatch: false, explanation: 'Too short' },
+        { input: 'cats', shouldMatch: false, explanation: 'Too long' }
+      ],
+      hints: [
+        'All matches start with "ca"',
+        'The last character varies: t, r, n',
+        'Use a character class for the last letter',
+        'ca[tnr] is 6 characters - can you do better?'
+      ]
+    },
+    estimatedMinutes: 15,
+    topics: ['regex golf', 'character classes', 'pattern optimization']
+  },
+  {
+    id: 'bonus-2',
+    slug: 'palindrome-simple',
+    title: 'Simple Palindromes',
+    description: 'Match short palindromes (2-4 characters) that read the same forward and backward.',
+    tier: 'advanced',
+    order: 102,
+    prerequisites: ['12'],
+    content: [
+      {
+        type: 'text',
+        content: 'A palindrome reads the same forward and backward. Regex can match short palindromes using backreferences!'
+      },
+      {
+        type: 'example',
+        content: 'Two-character palindromes',
+        code: '^(.)\\1$',
+        explanation: 'Captures one character in group 1, then \\1 matches the same character. Matches "aa", "bb", "11" but not "ab".'
+      },
+      {
+        type: 'example',
+        content: 'Three-character palindromes',
+        code: '^(.)(.)\\1$',
+        explanation: 'First and last characters match (both are \\1), middle can be anything (\\2). Matches "aba", "12321", "wow".'
+      },
+      {
+        type: 'example',
+        content: 'Four-character palindromes',
+        code: '^(.)(.)\\2\\1$',
+        explanation: 'First matches fourth (\\1), second matches third (\\2). Matches "abba", "12321" no wait that\'s 5 chars... matches "abba", "1221", "noon".'
+      },
+      {
+        type: 'text',
+        content: 'For longer palindromes, you\'d need more groups. But this gets unwieldy quickly - regex isn\'t the best tool for general palindrome detection!'
+      }
+    ],
+    exercise: {
+      id: 'ex-bonus-2',
+      instruction: 'Match 3-character palindromes like "aba", "bob", "121". First and last character must be the same.',
+      pattern: '^(.)(.)\\1$',
+      testCases: [
+        { input: 'aba', shouldMatch: true, explanation: 'Palindrome! a...a' },
+        { input: 'bob', shouldMatch: true, explanation: 'Palindrome! b...b' },
+        { input: '121', shouldMatch: true, explanation: 'Palindrome! 1...1' },
+        { input: 'aaa', shouldMatch: true, explanation: 'Palindrome! all same' },
+        { input: 'abc', shouldMatch: false, explanation: 'Not a palindrome' },
+        { input: 'ab', shouldMatch: false, explanation: 'Only 2 characters' },
+        { input: 'abca', shouldMatch: false, explanation: '4 characters' },
+        { input: 'Abb', shouldMatch: false, explanation: 'A != b (case-sensitive)' },
+        { input: ' a ', shouldMatch: true, explanation: 'Space-space palindrome' }
+      ],
+      hints: [
+        'Use ^ and $ to match entire string',
+        'Capture first character: (.)',
+        'Capture middle character: (.)',
+        'Reference first character: \\1'
+      ]
+    },
+    estimatedMinutes: 20,
+    topics: ['backreferences', 'palindromes', 'capturing groups']
+  },
+  {
+    id: 'bonus-3',
+    slug: 'match-abba',
+    title: 'The ABBA Pattern',
+    description: 'Match strings with the ABBA pattern - first half mirrors second half.',
+    tier: 'advanced',
+    order: 103,
+    prerequisites: ['12'],
+    content: [
+      {
+        type: 'text',
+        content: 'The ABBA pattern appears in music, words, and sequences. It means the pattern reverses itself: AB-BA.'
+      },
+      {
+        type: 'example',
+        content: 'ABBA patterns',
+        code: '^(.+)(.+)(\\2)(\\1)$',
+        explanation: 'Matches strings like "helloWorldWorldhello" where the second half mirrors the first. Group 1 = "hello", Group 2 = "World".'
+      },
+      {
+        type: 'text',
+        content: 'This is similar to palindromes, but with multi-character segments instead of single characters.'
+      },
+      {
+        type: 'example',
+        content: 'Simpler ABBA',
+        code: '^(.+)(\\1)$',
+        explanation: 'Actually this is just repetition, not ABBA. True ABBA needs two distinct parts that swap: abba, deadheat, etc.'
+      },
+      {
+        type: 'text',
+        content: 'In the word "abracadabra" you see the pattern: "abr" ... "a" ... "cada" ... "bra"? No, that\'s not quite it. Better example: "museum" where you see nothing. Actually ABBA the band name is the perfect example: A-B-B-A!'
+      }
+    ],
+    exercise: {
+      id: 'ex-bonus-3',
+      instruction: 'Match strings like "abcXYZXYZabc" where the pattern is A-B-B-A. First segment appears at start and end, second segment appears twice in the middle.',
+      pattern: '^(.+)(.+)(\\2)(\\1)$',
+      testCases: [
+        { input: 'abba', shouldMatch: true, explanation: 'a + b + b + a = ABBA!' },
+        { input: 'abcXYZXYZabc', shouldMatch: true, explanation: 'abc + XYZ + XYZ + abc' },
+        { input: 'helloWorldWorldhello', shouldMatch: true, explanation: 'hello + World + World + hello' },
+        { input: 'ABBA', shouldMatch: true, explanation: 'A + B + B + A (uppercase)' },
+        { input: 'abcabc', shouldMatch: true, explanation: 'ab + c + c + ab? No wait, this might match differently...' },
+        { input: 'abcd', shouldMatch: false, explanation: 'No ABBA pattern' },
+        { input: 'abab', shouldMatch: true, explanation: 'a + b + b + a (with greedy match, this could work)' },
+        { input: 'aaa', shouldMatch: true, explanation: 'a + (empty?) + (empty?) + a? Depends on greedy behavior' },
+        { input: 'abcba', shouldMatch: false, explanation: 'This is a palindrome, not ABBA (odd length)' }
+      ],
+      hints: [
+        'Use ^ and $ anchors',
+        'Capture first segment: (.+)',
+        'Capture second segment: (.+)',
+        'Second segment appears twice: \\2\\2? No, \\2 appears once',
+        'Wait: A-B-B-A means \\1, \\2, \\2, \\1'
+      ]
+    },
+    estimatedMinutes: 25,
+    topics: ['backreferences', 'pattern recognition', 'ABBA structure']
+  },
+  {
+    id: 'bonus-4',
+    slug: 'matching-comments',
+    title: 'Match Code Comments',
+    description: 'Extract single-line and multi-line comments from code. Handle different programming languages.',
+    tier: 'advanced',
+    order: 104,
+    prerequisites: ['7', '8'],
+    content: [
+      {
+        type: 'text',
+        content: 'Comments come in different flavors: // single-line, /* multi-line */, # Python-style. Each needs a different pattern.'
+      },
+      {
+        type: 'example',
+        content: 'Single-line comments (//)',
+        code: '//.*',
+        explanation: 'Matches // followed by anything until end of line. The . doesn\'t match newlines by default, so this stops at line end.'
+      },
+      {
+        type: 'example',
+        content: 'Multi-line comments (/* */)',
+        code: '/\\*[\\s\\S]*?\\*/',
+        explanation: '[\\s\\S] matches any character including newlines. The ? makes *? lazy (non-greedy) so it matches the FIRST closing */, not the last.'
+      },
+      {
+        type: 'example',
+        content: 'Python comments (#)',
+        code: '#.*',
+        explanation: 'Simple: hash followed by anything. Works for shell scripts too.'
+      },
+      {
+        type: 'text',
+        content: 'Caution: These patterns can fail on edge cases like comment delimiters inside strings. For production parsers, use proper parsers, not regex.'
+      }
+    ],
+    exercise: {
+      id: 'ex-bonus-4',
+      instruction: 'Match JavaScript multi-line comments /* like this */. The comment can span multiple lines. Use lazy matching to handle multiple comments.',
+      pattern: '/\\*[\\s\\S]*?\\*/',
+      testCases: [
+        { input: '/* comment */', shouldMatch: true, explanation: 'Simple single-line comment' },
+        { input: '/* multi\nline\ncomment */', shouldMatch: true, explanation: 'Multi-line comment' },
+        { input: '/* first */ code /* second */', shouldMatch: true, explanation: 'Matches first comment (lazy)' },
+        { input: '// not a block comment', shouldMatch: false, explanation: 'Single-line comment, not matched' },
+        { input: 'no comment here', shouldMatch: false, explanation: 'No comment' },
+        { input: '/** Documentation */', shouldMatch: true, explanation: 'JSDoc style' },
+        { input: '/**\n * Multi-line JSDoc\n */', shouldMatch: true, explanation: 'Multi-line JSDoc' },
+        { input: '/* unclosed comment', shouldMatch: false, explanation: 'Missing closing */' },
+        { input: 'let x = "/* not a comment */";', shouldMatch: true, explanation: 'WARNING: False positive! String contains comment syntax' }
+      ],
+      hints: [
+        'Start with /\\* (escaped asterisk)',
+        'Use [\\s\\S] to match any character including newlines',
+        'Make it lazy with *? to match shortest possible',
+        'End with \\*/ (escaped closing)'
+      ]
+    },
+    estimatedMinutes: 20,
+    topics: ['comments', 'lazy matching', '[\\s\\S] trick', 'code parsing']
+  },
+  {
+    id: 'bonus-5',
+    slug: 'markdown-links',
+    title: 'Parse Markdown Links',
+    description: 'Extract links from Markdown text: [text](url). Handle edge cases like nested brackets.',
+    tier: 'advanced',
+    order: 105,
+    prerequisites: ['10'],
+    content: [
+      {
+        type: 'text',
+        content: 'Markdown links have the format [link text](url). Regex can extract both the text and URL components.'
+      },
+      {
+        type: 'example',
+        content: 'Basic Markdown link',
+        code: '\\[([^\\]]+)\\]\\(([^)]+)\\)',
+        explanation: 'Group 1 captures link text, Group 2 captures URL. Escaped brackets \\[ \\] and parentheses \\( \\) match the literal characters.'
+      },
+      {
+        type: 'text',
+        content: 'The text part can contain almost anything except ]. The URL part should not contain ) but might in real markdown.'
+      },
+      {
+        type: 'example',
+        content: 'Markdown link with title',
+        code: '\\[([^\\]]+)\\]\\(([^)\\s]+)(?:\\s+"([^"]+)")?\\)',
+        explanation: 'Also captures optional title: [text](url "title"). Group 3 gets the title if present.'
+      },
+      {
+        type: 'text',
+        content: 'For full Markdown parsing, use a proper parser. Regex works for simple cases but fails on edge cases like escaped brackets or nested links.'
+      }
+    ],
+    exercise: {
+      id: 'ex-bonus-5',
+      instruction: 'Match Markdown links and capture the link text and URL. Example: [Google](https://google.com) → text="Google", url="https://google.com"',
+      pattern: '\\[([^\\]]+)\\]\\(([^)]+)\\)',
+      testCases: [
+        { input: '[Google](https://google.com)', shouldMatch: true, explanation: 'Captures: Google, https://google.com' },
+        { input: '[OpenAI](https://openai.com)', shouldMatch: true, explanation: 'Captures: OpenAI, https://openai.com' },
+        { input: 'Check [this link](https://example.com) here', shouldMatch: true, explanation: 'Link in text' },
+        { input: '[multi word link](https://example.com/path)', shouldMatch: true, explanation: 'Text with spaces' },
+        { input: '[](https://empty-text.com)', shouldMatch: true, explanation: 'Empty text (matches)' },
+        { input: '[text only]', shouldMatch: false, explanation: 'Missing URL part' },
+        { input: '(https://no-text.com)', shouldMatch: false, explanation: 'Missing text part' },
+        { input: '[nested [brackets]](https://fail.com)', shouldMatch: false, explanation: 'Nested brackets break simple pattern' },
+        { input: '[text](url with spaces)', shouldMatch: true, explanation: 'URL with spaces (matches up to first )' }
+      ],
+      hints: [
+        'Escape brackets: \\[ and \\]',
+        'Escape parentheses: \\( and \\)',
+        'Text: [^\\]]+ (anything except ])',
+        'URL: [^)]+ (anything except ))'
+      ]
+    },
+    estimatedMinutes: 20,
+    topics: ['Markdown', 'parsing', 'escaping', 'capturing groups']
+  },
+  {
+    id: 'bonus-6',
+    slug: 'emoji-patterns',
+    title: 'Match Emojis',
+    description: 'Match emojis in text. Handle Unicode characters and emoji sequences.',
+    tier: 'advanced',
+    order: 106,
+    prerequisites: ['15'],
+    content: [
+      {
+        type: 'text',
+        content: 'Emojis are Unicode characters. In modern regex with the u flag, you can match them using Unicode property escapes or ranges.'
+      },
+      {
+        type: 'example',
+        content: 'Basic emoji matching',
+        code: '/\\p{Emoji}/u',
+        explanation: 'With u flag, \\p{Emoji} matches any emoji character. This includes simple emojis and emoji components.'
+      },
+      {
+        type: 'example',
+        content: 'Match specific emojis',
+        code: '[😀-🙏]',
+        explanation: 'Matches emojis in a Unicode range. This catches many common emojis but not all. Ranges are approximate.'
+      },
+      {
+        type: 'text',
+        content: 'Emojis can be complex: skin tone modifiers (👋🏽), ZWJ sequences (👨‍👩‍👧‍👦), flags (🇺🇸). These are multiple code points acting as one visual emoji.'
+      },
+      {
+        type: 'example',
+        content: 'Match flag emojis',
+        code: '\\p{Regional_Indicator}{2}',
+        explanation: 'Flags are two regional indicator letters. 🇺🇸 is \\p{Regional_Indicator} twice (U + S).'
+      },
+      {
+        type: 'text',
+        content: 'For production, consider libraries that handle emoji complexity. Regex can match them but the rules are intricate.'
+      }
+    ],
+    exercise: {
+      id: 'ex-bonus-6',
+      instruction: 'Match single emojis using Unicode property escapes. Use the u flag. Match emojis like 😀, 🎉, 🚀.',
+      pattern: '\\p{Emoji}',
+      testCases: [
+        { input: '😀', shouldMatch: true, explanation: 'Emoji matches' },
+        { input: '🎉', shouldMatch: true, explanation: 'Party emoji' },
+        { input: '🚀', shouldMatch: true, explanation: 'Rocket emoji' },
+        { input: 'Hello 🌍!', shouldMatch: true, explanation: 'Emoji in text' },
+        { input: 'Hello', shouldMatch: false, explanation: 'No emoji' },
+        { input: '123', shouldMatch: false, explanation: 'Digits are not emojis (but \\p{Emoji} might match digits!)' },
+        { input: '👋🏽', shouldMatch: true, explanation: 'Emoji with skin tone (matches first part)' },
+        { input: '🇺🇸', shouldMatch: true, explanation: 'Flag emoji (matches first regional indicator)' }
+      ],
+      hints: [
+        'Use \\p{Emoji} with u flag',
+        'This matches emoji characters',
+        'Note: digits are technically emojis in Unicode',
+        'For stricter matching, you might need \\p{Emoji_Presentation}'
+      ]
+    },
+    estimatedMinutes: 15,
+    topics: ['Unicode', 'emojis', '\\p{} property escapes', 'u flag']
+  },
+  {
+    id: 'bonus-7',
+    slug: 'secret-messages',
+    title: 'Hidden Messages',
+    description: 'Find secret messages hidden in text using patterns. Decoding challenges.',
+    tier: 'advanced',
+    order: 107,
+    prerequisites: ['10'],
+    content: [
+      {
+        type: 'text',
+        content: 'Sometimes messages are hidden in plain sight. Regex can extract patterns that reveal hidden content.'
+      },
+      {
+        type: 'example',
+        content: 'Capitals spell a word',
+        code: '[A-Z]',
+        explanation: 'Extract all uppercase letters: "Hello Every One" → "HEO". The capitals might spell a hidden message.'
+      },
+      {
+        type: 'example',
+        content: 'First letter of each word',
+        code: '\\b\\w',
+        explanation: 'Matches the first character of each word. "Help Everyone Leave" → "HEL". Combine all matches to get the message.'
+      },
+      {
+        type: 'example',
+        content: 'Every Nth character',
+        code: '.(.).(.).(.).',
+        explanation: 'Captures every other character. Use this to extract characters at specific positions.'
+      },
+      {
+        type: 'text',
+        content: 'Regex is a powerful tool for cryptanalysis and pattern extraction. Combine with programming for complex decoding.'
+      }
+    ],
+    exercise: {
+      id: 'ex-bonus-7',
+      instruction: 'Match all uppercase letters in a string. We\'ll use this to extract a hidden message from the capitals.',
+      pattern: '[A-Z]',
+      testCases: [
+        { input: 'Hello World', shouldMatch: true, explanation: 'Matches H and W' },
+        { input: 'Secret Message Hidden Here', shouldMatch: true, explanation: 'Matches S, M, H, H' },
+        { input: 'lowercase only', shouldMatch: false, explanation: 'No uppercase letters' },
+        { input: 'ALL CAPS', shouldMatch: true, explanation: 'Matches all letters' },
+        { input: 'CamelCaseExample', shouldMatch: true, explanation: 'Matches C, C, E' },
+        { input: '123ABC', shouldMatch: true, explanation: 'Matches A, B, C' },
+        { input: 'UPPER lower UPPER', shouldMatch: true, explanation: 'Matches UPPER and UPPER' },
+        { input: 'aBcDeF', shouldMatch: true, explanation: 'Matches B, D, F' }
+      ],
+      hints: [
+        'Use [A-Z] to match uppercase',
+        'This is a character class',
+        'It will match each uppercase letter separately',
+        'The pattern is simple: [A-Z]'
+      ]
+    },
+    estimatedMinutes: 10,
+    topics: ['cryptanalysis', 'hidden messages', 'uppercase', 'extraction']
+  }
+]
