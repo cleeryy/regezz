@@ -18,7 +18,13 @@ export const intermediateProblems: PracticeProblem[] = [
       { id: 'tc3', input: '1234', shouldMatch: false, expectedGroups: [], explanation: '4 digits, not 3' },
       { id: 'tc4', input: 'abc123def', shouldMatch: true, expectedGroups: [], explanation: 'Matches "123" within text' },
       { id: 'tc5', input: '1', shouldMatch: false, expectedGroups: [], explanation: 'Only 1 digit' },
-      { id: 'tc6', input: '999', shouldMatch: true, expectedGroups: [], explanation: 'Any 3 digits work' }
+      { id: 'tc6', input: '999', shouldMatch: true, expectedGroups: [], explanation: 'Any 3 digits work' },
+      { id: 'tc7', input: '007', shouldMatch: true, expectedGroups: [], explanation: 'Leading zeros are valid' },
+      { id: 'tc8', input: 'abc123def456', shouldMatch: true, expectedGroups: [], explanation: 'Multiple 3-digit sequences, matches first' },
+      { id: 'tc9', input: '123123', shouldMatch: true, expectedGroups: [], explanation: 'Repeated 3-digit sequence' },
+      { id: 'tc10', input: '(123)', shouldMatch: true, expectedGroups: [], explanation: '3 digits within parentheses' },
+      { id: 'tc11', input: ' 123 ', shouldMatch: true, expectedGroups: [], explanation: 'Whitespace around 3 digits' },
+      { id: 'tc12', input: 'x123y', shouldMatch: true, expectedGroups: [], explanation: '3 digits embedded between non-word chars' }
     ],
     hints: [
       'Use \\d to match a digit',
@@ -42,7 +48,13 @@ export const intermediateProblems: PracticeProblem[] = [
       { id: 'tc3', input: 'hello', shouldMatch: false, expectedGroups: [], explanation: 'No digits' },
       { id: 'tc4', input: '12345', shouldMatch: true, expectedGroups: [], explanation: 'All digits is also a word' },
       { id: 'tc5', input: 'a1b2c3', shouldMatch: true, expectedGroups: [], explanation: 'Mixed letters and digits' },
-      { id: 'tc6', input: 'user.name', shouldMatch: false, expectedGroups: [], explanation: 'Dot is not a word character' }
+      { id: 'tc6', input: 'user.name', shouldMatch: false, expectedGroups: [], explanation: 'Dot is not a word character' },
+      { id: 'tc7', input: '123abc', shouldMatch: true, expectedGroups: [], explanation: 'Digits at start of word' },
+      { id: 'tc8', input: '1', shouldMatch: true, expectedGroups: [], explanation: 'Single digit word (minimal match)' },
+      { id: 'tc9', input: 'test-123', shouldMatch: true, expectedGroups: [], explanation: 'Hyphen separates words, matches "123"' },
+      { id: 'tc10', input: 'test_user', shouldMatch: false, expectedGroups: [], explanation: 'Underscores but no digit' },
+      { id: 'tc11', input: 'a1b2c3d4e5', shouldMatch: true, expectedGroups: [], explanation: 'Multiple digits interleaved with letters' },
+      { id: 'tc12', input: '', shouldMatch: false, expectedGroups: [], explanation: 'Empty string has no digit' }
     ],
     hints: [
       'Use \\w to match word characters',
@@ -68,7 +80,13 @@ export const intermediateProblems: PracticeProblem[] = [
       { id: 'tc3', input: 'readme', shouldMatch: false, expectedGroups: [], explanation: 'Missing extension' },
       { id: 'tc4', input: 'document.pdf', shouldMatch: false, expectedGroups: [], explanation: 'Wrong extension' },
       { id: 'tc5', input: 'my_file.txt', shouldMatch: false, expectedGroups: [], explanation: 'Underscore is not in \\w' },
-      { id: 'tc6', input: 'a.txt', shouldMatch: true, expectedGroups: [], explanation: 'Short filename works' }
+      { id: 'tc6', input: 'a.txt', shouldMatch: true, expectedGroups: [], explanation: 'Short filename works' },
+      { id: 'tc7', input: '123.txt', shouldMatch: true, expectedGroups: [], explanation: 'Digits-only filename is valid' },
+      { id: 'tc8', input: 'FILE.TXT', shouldMatch: false, expectedGroups: [], explanation: 'Uppercase extension does not match' },
+      { id: 'tc9', input: 'file.name.txt', shouldMatch: true, expectedGroups: [], explanation: 'Multiple dots, contains valid "name.txt" substring' },
+      { id: 'tc10', input: 'file..txt', shouldMatch: false, expectedGroups: [], explanation: 'Consecutive dots, no valid filename before .txt' },
+      { id: 'tc11', input: 'archive.tar.txt', shouldMatch: true, expectedGroups: [], explanation: 'Compound extension, contains valid "tar.txt" substring' },
+      { id: 'tc12', input: '.txt', shouldMatch: false, expectedGroups: [], explanation: 'Missing filename before dot' }
     ],
     hints: [
       'Match word characters for the filename',
@@ -93,7 +111,13 @@ export const intermediateProblems: PracticeProblem[] = [
       { id: 'tc3', input: 'wwwtest.com', shouldMatch: false, expectedGroups: [], explanation: 'Missing dot after www' },
       { id: 'tc4', input: 'www', shouldMatch: false, expectedGroups: [], explanation: 'Just www, no domain' },
       { id: 'tc5', input: 'example.org', shouldMatch: false, expectedGroups: [], explanation: 'Wrong TLD' },
-      { id: 'tc6', input: 'www.example.org', shouldMatch: false, expectedGroups: [], explanation: 'Wrong TLD' }
+      { id: 'tc6', input: 'www.example.org', shouldMatch: false, expectedGroups: [], explanation: 'Wrong TLD' },
+      { id: 'tc7', input: 'WWW.EXAMPLE.COM', shouldMatch: false, expectedGroups: [], explanation: 'Case sensitivity: uppercase www' },
+      { id: 'tc8', input: 'www.EXAMPLE.COM', shouldMatch: false, expectedGroups: [], explanation: 'Case sensitivity: uppercase domain' },
+      { id: 'tc9', input: 'example.COM', shouldMatch: false, expectedGroups: [], explanation: 'Case sensitivity: uppercase TLD' },
+      { id: 'tc10', input: 'www.example.com ', shouldMatch: false, expectedGroups: [], explanation: 'Trailing space invalidates match' },
+      { id: 'tc11', input: 'example.com.', shouldMatch: false, expectedGroups: [], explanation: 'Trailing dot not allowed' },
+      { id: 'tc12', input: 'http://example.com', shouldMatch: false, expectedGroups: [], explanation: 'Protocol prefix not part of pattern' }
     ],
     hints: [
       'Use a non-capturing group for www.',
@@ -118,7 +142,13 @@ export const intermediateProblems: PracticeProblem[] = [
       { id: 'tc3', input: '123abc', shouldMatch: false, expectedGroups: [], explanation: 'Ends with letter, not digit' },
       { id: 'tc4', input: 'hello', shouldMatch: false, expectedGroups: [], explanation: 'No digit at end' },
       { id: 'tc5', input: 'test9', shouldMatch: true, expectedGroups: [], explanation: 'Ends with digit 9' },
-      { id: 'tc6', input: 'a1', shouldMatch: true, expectedGroups: [], explanation: 'Short string ending with digit' }
+      { id: 'tc6', input: 'a1', shouldMatch: true, expectedGroups: [], explanation: 'Short string ending with digit' },
+      { id: 'tc7', input: '1', shouldMatch: true, expectedGroups: [], explanation: 'Single digit string' },
+      { id: 'tc8', input: ' 123', shouldMatch: true, expectedGroups: [], explanation: 'Leading whitespace, still ends with digit' },
+      { id: 'tc9', input: '123 ', shouldMatch: false, expectedGroups: [], explanation: 'Trailing whitespace means ends with space, not digit' },
+      { id: 'tc10', input: '123\n', shouldMatch: true, expectedGroups: [], explanation: 'Newline before end, digit before newline matches' },
+      { id: 'tc11', input: '123a', shouldMatch: false, expectedGroups: [], explanation: 'Ends with letter, not digit' },
+      { id: 'tc12', input: '!@#1', shouldMatch: true, expectedGroups: [], explanation: 'Special characters, ends with digit' }
     ],
     hints: [
       'Use the end-of-line anchor',

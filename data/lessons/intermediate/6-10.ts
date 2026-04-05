@@ -73,7 +73,15 @@ export const intermediateLessons: Lesson[] = [
         { input: 'ab', shouldMatch: false, explanation: 'No digits at all' },
         { input: '99 bottles', shouldMatch: true, explanation: 'Matches "99"' },
         { input: '5', shouldMatch: false, explanation: 'Single digit - not enough' },
-        { input: '2024', shouldMatch: true, explanation: 'Matches first 2 digits "20"' }
+        { input: '2024', shouldMatch: true, explanation: 'Matches first 2 digits "20"' },
+        { input: 'a1b2c3', shouldMatch: false, explanation: 'Digits are not consecutive - need exactly 2 in a row' },
+        { input: 'abc12', shouldMatch: true, explanation: 'Two digits at the end of string' },
+        { input: '12!@#', shouldMatch: true, explanation: 'Digits followed by special characters' },
+        { input: ' 12 ', shouldMatch: true, explanation: 'Digits with whitespace on both sides' },
+        { input: '', shouldMatch: false, explanation: 'Empty string - no digits to match' },
+        { input: '12abc', shouldMatch: true, explanation: 'Two digits at start followed by letters' },
+        { input: '1 2', shouldMatch: false, explanation: 'Digits separated by space - not consecutive' },
+        { input: '00', shouldMatch: true, explanation: 'Leading zeros are still digits' }
       ],
       hints: [
         'Use \\d to match a digit',
@@ -95,69 +103,81 @@ export const intermediateLessons: Lesson[] = [
     content: [
       {
         type: 'text',
-        content: 'The Kleene star `*` and plus `+` are the most frequently used repetition operators. They are shortcuts for common ranges.'
+        content: 'The Kleene star `*` and plus `+` are the most frequently used repetition operators. They are shortcuts for common ranges and fundamental to most regex patterns.'
       },
       {
         type: 'example',
         content: 'The star operator: *',
         code: 'a*',
-        explanation: 'Matches zero or more "a" characters. This matches "", "a", "aa", "aaa", and so on. Even the empty string!'
+        explanation: 'Matches zero or more "a" characters. This matches "", "a", "aa", "aaa", and so on. Even the empty string! Use carefully - it can match nothing.'
       },
       {
         type: 'example',
         content: 'The plus operator: +',
         code: 'a+',
-        explanation: 'Matches one or more "a" characters. This matches "a", "aa", "aaa", but NOT the empty string.'
+        explanation: 'Matches one or more "a" characters. This matches "a", "aa", "aaa", but NOT the empty string. More restrictive than *.'
       },
       {
         type: 'text',
-        content: 'Remember: * means "zero or more", + means "one or more". This is the key difference.'
+        content: '**Remember**: `*` means "zero or more", `+` means "one or more". This is the key difference:\n• `*` can match nothing (empty string)\n• `+` requires at least one match'
+      },
+      {
+        type: 'text',
+        content: '**Connection to Lesson 6**: You learned `{3}` for exactly 3, `{2,4}` for ranges. The `*` and `+` are shorthand: `*` = `{0,}` (zero or more), `+` = `{1,}` (one or more). Use these shortcuts for cleaner, more readable patterns.'
       },
       {
         type: 'example',
         content: 'Using with any character',
         code: '.*',
-        explanation: '.* matches any sequence of characters (except newline by default). This is extremely powerful and common.'
+        explanation: '.* matches any sequence of characters (except newline by default). This is extremely powerful and common - but use carefully as it can match too much!'
       },
       {
         type: 'example',
         content: 'Using with word characters',
         code: '\\w+',
-        explanation: '\\w+ matches a word - one or more word characters. This is how you match variable-length words.'
+        explanation: '\\w+ matches a word - one or more word characters. This is how you match variable-length words like "hello", "regex", "pattern123".'
       },
       {
         type: 'text',
-        content: 'Real-world example: matching filenames with extensions.'
+        content: '**Real-world use cases:**\n• **Text matching**: Match words of any length with `\\w+`\n• **File parsing**: Match entire lines with `.*` for log processing\n• **Data validation**: Require at least one character with `.+` (usernames, IDs)\n• **Whitespace handling**: Match optional spaces with `\\s*` (flexible formatting)\n• **HTML/JSON parsing**: Match content between tags with `.*?` (lazy version)\n• **Path matching**: Match directory components with `[^/]+` (one or more non-slashes)'
       },
       {
         type: 'example',
-        content: 'Matching a filename',
+        content: 'Matching a filename with extension',
         code: '\\w+\\.txt',
-        explanation: '\\w+ matches the filename (one or more word chars), then \\.txt matches the literal ".txt" extension.'
+        explanation: '\\w+ matches the filename (one or more word chars), then \\.txt matches the literal ".txt" extension. Matches "file.txt", "document.txt", "notes123.txt".'
+      },
+      {
+        type: 'text',
+        content: '**Common pattern**: `.*?` (lazy star) matches as little as possible. Useful for HTML/XML parsing: `<.+?>` matches ONE tag, not everything from first `<` to last `>`.'
       }
     ],
-    exercise: {
-      id: 'ex-7',
-      instruction: 'Write a pattern that matches one or more digits',
-      pattern: '\\d+',
-        testCases: [
-          { input: '123', shouldMatch: true, explanation: 'Matches all three digits as one sequence' },
-          { input: '1', shouldMatch: true, explanation: 'Single digit matches' },
-          { input: '', shouldMatch: false, explanation: 'Empty string does not match (need at least one digit)' },
-          { input: 'a1b2c3', shouldMatch: true, explanation: 'Matches "1", "2", and "3" separately' },
-          { input: 'abc', shouldMatch: false, explanation: 'No digits' },
-          { input: '999', shouldMatch: true, explanation: 'Multiple digits match' },
-          { input: '123abc', shouldMatch: true, explanation: 'Matches "123" at start' },
-          { input: '0', shouldMatch: true, explanation: 'Zero is a digit and matches' }
-        ],
-      hints: [
-        'Use \\d to match a digit',
-        'Add + to mean one or more',
-        'Try: \\d+'
-      ]
-    },
+ exercise: {
+  id: 'ex-7',
+  instruction: 'Write a pattern that matches one or more digits. Your pattern should find sequences of consecutive digits in any text.',
+  pattern: '\\d+',
+  testCases: [
+    { input: '123', shouldMatch: true, explanation: 'Matches all three digits as one sequence' },
+    { input: '1', shouldMatch: true, explanation: 'Single digit matches' },
+    { input: '', shouldMatch: false, explanation: 'Empty string does not match (need at least one digit)' },
+    { input: 'a1b2c3', shouldMatch: true, explanation: 'Matches "1", "2", and "3" separately' },
+    { input: 'abc', shouldMatch: false, explanation: 'No digits' },
+    { input: '999', shouldMatch: true, explanation: 'Multiple digits match' },
+    { input: '123abc', shouldMatch: true, explanation: 'Matches "123" at start' },
+    { input: '0', shouldMatch: true, explanation: 'Zero is a digit and matches' },
+    { input: '0000000000', shouldMatch: true, explanation: 'Many zeros match as one sequence (tests greedy matching)' },
+    { input: '12a34', shouldMatch: true, explanation: 'Matches "12" and "34" separately (multiple digit sequences)' },
+    { input: 'price: $123.45', shouldMatch: true, explanation: 'Matches "123" and "45" in real-world context' },
+    { input: 'a', shouldMatch: false, explanation: 'Single letter, not a digit (distractor)' }
+  ],
+  hints: [
+    'Use \\d to match a digit',
+    'Add + to mean one or more',
+    'Your pattern: \\d+ (two characters: backslash-d-plus)'
+  ]
+},
     estimatedMinutes: 15,
-    topics: ['Kleene star', 'Kleene plus', 'zero or more', 'one or more', 'greedy repetition']
+    topics: ['Kleene star', 'Kleene plus', 'zero or more', 'one or more', 'greedy repetition', 'shorthand quantifiers']
   },
   {
     id: '8',
@@ -170,59 +190,81 @@ export const intermediateLessons: Lesson[] = [
         content: [
           {
             type: 'text',
-            content: 'The question mark `?` makes the preceding element optional - it matches zero or one time.'
+            content: 'The question mark `?` makes the preceding element **optional** - it matches zero or one time. This is crucial for handling variations in patterns.'
           },
           {
             type: 'example',
-            content: 'Optional character',
+            content: 'Optional character in spelling variations',
             code: 'colou?r',
-            explanation: 'The u is optional. This matches both "color" (no u) and "colour" (with u). Common in American vs British English.'
+            explanation: 'The u is optional. This matches both "color" (without u - American English) and "colour" (with u - British English). A single pattern handles both!'
           },
           {
             type: 'text',
-            content: '? is equivalent to {0,1} - zero or one occurrence. This is useful for handling optional prefixes, suffixes, or variations in patterns.'
+            content: '**Connection to Lesson 7**: You learned `*` for "zero or more" and `+` for "one or more". The `?` is the third quantifier: it means "zero or one" - exactly 0 or 1 occurrence, no more. Equivalent to `{0,1}`.'
+          },
+          {
+            type: 'text',
+            content: '? is equivalent to {0,1} - zero or one occurrence. Use it when something is truly optional: maybe there, maybe not.'
           },
           {
             type: 'example',
             content: 'Phone number with optional area code',
             code: '(?:\\d{3}-)?\\d{3}-\\d{4}',
-            explanation: 'Matches "555-1234" or "415-555-1234". The non-capturing group with ? makes the area code optional.'
+            explanation: 'Matches "555-1234" or "415-555-1234". The non-capturing group with ? makes the area code optional. Real flexibility for user input!'
           },
           {
             type: 'text',
-            content: 'Greedy vs lazy: By default, quantifiers are greedy - they match as much as possible. Add a ? after a quantifier to make it lazy (match as little as possible).'
+            content: '**Greedy vs Lazy**: By default, quantifiers are **greedy** - they match as much as possible. Add a `?` AFTER a quantifier to make it **lazy** (match as little as possible). This is the second use of `?` in regex!'
           },
-      {
-        type: 'example',
-        content: 'Greedy matching',
-        code: '<.+>',
-        explanation: 'Greedy: .+ matches as much as possible. In "<tag>content</tag>", it matches "<tag>content</tag>" as one big match (including the closing tag).'
-      },
-      {
-        type: 'example',
-        content: 'Lazy matching',
-        code: '<.+?>',
-        explanation: 'Lazy: .+? matches as little as possible. In "<tag>content</tag>", it matches "<tag>" first, then separately "</tag>".'
-      },
-      {
-        type: 'text',
-        content: 'Use lazy quantifiers when you want minimal matching, especially with nested or repeated structures.'
-      }
-    ],
+          {
+            type: 'example',
+            content: 'Greedy matching problem',
+            code: '<.+>',
+            explanation: 'Greedy: .+ matches as much as possible. In "<tag>content</tag>", it matches "<tag>content</tag>" as one big match (including both tags). Often NOT what you want!'
+          },
+          {
+            type: 'example',
+            content: 'Lazy matching solution',
+            code: '<.+?>',
+            explanation: 'Lazy: .+? matches as little as possible. In "<tag>content</tag>", it matches "<tag>" first, then separately "</tag>". Much better for parsing!'
+          },
+          {
+            type: 'text',
+            content: '**Real-world use cases:**\n• **Spelling variations**: Handle American/British English (color/colour), optional prefixes (http/https)\n• **Optional formatting**: Match phone numbers with or without area codes, dates with optional separators\n• **HTML/XML parsing**: Use lazy matching `.*?` to match individual tags instead of everything\n• **Configuration parsing**: Match optional whitespace `\\s*`, optional trailing slashes in paths\n• **Input validation**: Make certain fields optional while still validating format\n• **Log parsing**: Handle variations in log formats (optional timestamp formats, optional fields)'
+          },
+          {
+            type: 'example',
+            content: 'Matching URLs with optional protocol',
+            code: '(?:https?:\\/\\/)?[\\w.-]+',
+            explanation: 'Matches "example.com" or "http://example.com" or "https://example.com". The protocol is optional, making the pattern flexible for various input formats.'
+          },
+          {
+            type: 'text',
+            content: '**Use lazy quantifiers** when you want minimal matching, especially with nested or repeated structures. Greedy matching can accidentally consume too much text!'
+          }
+        ],
     exercise: {
       id: 'ex-8',
       instruction: 'Write a pattern that matches "color" or "colour" (u is optional)',
       pattern: 'colou?r',
-      testCases: [
-        { input: 'color', shouldMatch: true, explanation: 'Matches without the optional u' },
-        { input: 'colour', shouldMatch: true, explanation: 'Matches with the optional u' },
-        { input: 'colouur', shouldMatch: false, explanation: 'Two u\'s, pattern only allows zero or one' },
-        { input: 'colr', shouldMatch: false, explanation: 'Missing o and u' },
-        { input: 'colors', shouldMatch: false, explanation: 'Extra s at end' },
-        { input: 'COLOR', shouldMatch: false, explanation: 'Case-sensitive' },
-        { input: 'colou', shouldMatch: false, explanation: 'Missing r' },
-        { input: 'colourful', shouldMatch: true, explanation: 'Matches "colour" part' }
-      ],
+       testCases: [
+         { input: 'color', shouldMatch: true, explanation: 'Matches without the optional u' },
+         { input: 'colour', shouldMatch: true, explanation: 'Matches with the optional u' },
+         { input: 'colouur', shouldMatch: false, explanation: 'Two u\'s, pattern only allows zero or one' },
+         { input: 'colr', shouldMatch: false, explanation: 'Missing o and u' },
+         { input: 'colors', shouldMatch: false, explanation: 'Extra s at end' },
+         { input: 'COLOR', shouldMatch: false, explanation: 'Case-sensitive' },
+         { input: 'colou', shouldMatch: false, explanation: 'Missing r' },
+         { input: 'colourful', shouldMatch: true, explanation: 'Matches "colour" part' },
+         { input: 'colorful', shouldMatch: true, explanation: 'Contains "color" as substring within longer word' },
+         { input: 'Colour', shouldMatch: false, explanation: 'Uppercase C does not match (case-sensitive)' },
+         { input: 'colur', shouldMatch: false, explanation: 'Missing "o" after "col" - breaks required sequence' },
+          { input: 'coulour', shouldMatch: false, explanation: 'Extra "u" after "c" creates wrong sequence' },
+          { input: 'COLOUR', shouldMatch: false, explanation: 'All uppercase - case-sensitive match fails' },
+          { input: 'coloor', shouldMatch: false, explanation: 'Double "o" - extra letter not allowed' },
+          { input: 'color123', shouldMatch: true, explanation: 'Digits after "color" - substring match still works' },
+          { input: ' colour ', shouldMatch: true, explanation: 'Whitespace around "colour" - substring match still works' }
+        ],
       hints: [
         'Use ? to make a character optional',
         'Place ? after the u',
@@ -300,16 +342,24 @@ export const intermediateLessons: Lesson[] = [
       id: 'ex-9',
       instruction: 'Write a pattern that matches a string that starts with "test". Use the start anchor to ensure it\'s at the beginning.',
       pattern: '^test',
-      testCases: [
-        { input: 'test123', shouldMatch: true, explanation: 'Starts with "test"' },
-        { input: 'this is a test', shouldMatch: false, explanation: '"test" is in the middle, not at start' },
-        { input: 'test', shouldMatch: true, explanation: 'Exactly "test" at start' },
-        { input: 'TEST', shouldMatch: false, explanation: 'Case-sensitive, uppercase does not match' },
-        { input: 'mytest', shouldMatch: false, explanation: '"test" is at the end' },
-        { input: ' testing', shouldMatch: false, explanation: 'Space before test' },
-        { input: 'test-test', shouldMatch: true, explanation: 'Starts with test' },
-        { input: 'tetest', shouldMatch: true, explanation: 'Starts with test' }
-      ],
+       testCases: [
+         { input: 'test123', shouldMatch: true, explanation: 'Starts with "test"' },
+         { input: 'this is a test', shouldMatch: false, explanation: '"test" is in the middle, not at start' },
+         { input: 'test', shouldMatch: true, explanation: 'Exactly "test" at start' },
+         { input: 'TEST', shouldMatch: false, explanation: 'Case-sensitive, uppercase does not match' },
+         { input: 'mytest', shouldMatch: false, explanation: '"test" is at the end' },
+         { input: ' testing', shouldMatch: false, explanation: 'Space before test' },
+         { input: 'test-test', shouldMatch: true, explanation: 'Starts with test' },
+         { input: 'tetest', shouldMatch: false, explanation: 'Starts with "te" not "test" - does not match the pattern' },
+         { input: 'testing', shouldMatch: true, explanation: 'Starts with "test" (prefix of longer word)' },
+         { input: 'test ', shouldMatch: true, explanation: 'Starts with "test" followed by space' },
+         { input: '\ntest', shouldMatch: false, explanation: 'Newline before test - anchor requires start of string' },
+          { input: 'something\ntest', shouldMatch: false, explanation: 'Test on second line does not match start anchor' },
+          { input: '', shouldMatch: false, explanation: 'Empty string does not start with "test"' },
+          { input: '\ttest', shouldMatch: false, explanation: 'Tab before test - anchor requires start of string' },
+          { input: 'test\n', shouldMatch: true, explanation: 'Starts with test, newline after is fine' },
+          { input: 'Test', shouldMatch: false, explanation: 'Uppercase T - case-sensitive' }
+        ],
       hints: [
         'Use ^ to anchor to the start of the line',
         'Combine ^ with the pattern "test"',
@@ -377,28 +427,32 @@ export const intermediateLessons: Lesson[] = [
         content: '**Captured groups are used for**: backreferences (match same text again), replacements (reformat text), and extraction (pull specific data from matches).'
       }
     ],
-    exercise: {
-      id: 'ex-10',
-      instruction: 'Write a pattern with two groups that matches "area:number" where area is 3 digits and number is 4 digits. Capture each part separately. Example: "555-1234" → group 1="555", group 2="1234"',
-      pattern: '(\\d{3})-(\\d{4})',
-      testCases: [
-        { input: '555-1234', shouldMatch: true, explanation: 'Matches with groups: 1="555", 2="1234"' },
-        { input: '123-4567', shouldMatch: true, explanation: 'Matches with groups: 1="123", 2="4567"' },
-        { input: '12-3456', shouldMatch: false, explanation: 'Area code must be 3 digits' },
-        { input: '555-123', shouldMatch: false, explanation: 'Number must be 4 digits' },
-        { input: '5551234', shouldMatch: false, explanation: 'Missing dash separator' },
-        { input: '000-0000', shouldMatch: true, explanation: 'Matches with zeros' },
-        { input: '999-9999', shouldMatch: true, explanation: 'Matches with nines' },
-        { input: '555-12345', shouldMatch: true, explanation: 'Matches first 4 digits after dash' }
-      ],
-      hints: [
-        'Use parentheses () to create groups',
-        'First group: (\\d{3}) captures 3 digits',
-        'Second group: (\\d{4}) captures 4 digits',
-        'Separate with a dash: -(\\d{4})',
-        'Full pattern: (\\d{3})-(\\d{4})'
-      ]
-    },
+ exercise: {
+  id: 'ex-10',
+  instruction: 'Write a pattern with two groups that matches "area:number" where area is 3 digits and number is 4 digits. Capture each part separately. Example: "555-1234" → group 1="555", group 2="1234"',
+  pattern: '(\\d{3})-(\\d{4})',
+  testCases: [
+    { input: '555-1234', shouldMatch: true, explanation: 'Matches with groups: 1="555", 2="1234"' },
+    { input: '123-4567', shouldMatch: true, explanation: 'Matches with groups: 1="123", 2="4567"' },
+    { input: '12-3456', shouldMatch: false, explanation: 'Area code must be 3 digits' },
+    { input: '555-123', shouldMatch: false, explanation: 'Number must be 4 digits' },
+    { input: '5551234', shouldMatch: false, explanation: 'Missing dash separator' },
+    { input: '000-0000', shouldMatch: true, explanation: 'Matches with zeros' },
+    { input: '999-9999', shouldMatch: true, explanation: 'Matches with nines' },
+    { input: '555-12345', shouldMatch: true, explanation: 'Matches first 4 digits after dash' },
+    { input: 'call 555-1234', shouldMatch: true, explanation: 'Matches phone embedded in text' },
+    { input: '555-1234 999-0000', shouldMatch: true, explanation: 'Matches first phone number in sequence' },
+    { input: '(555) 123-4567', shouldMatch: false, explanation: 'Parentheses format not supported (different format)' },
+    { input: '555-123', shouldMatch: false, explanation: 'Number too short (only 3 digits)' }
+  ],
+  hints: [
+    'Use parentheses () to create groups',
+    'First group: (\\d{3}) captures 3 digits',
+    'Second group: (\\d{4}) captures 4 digits',
+    'Separate with a dash: -(\\d{4})',
+    'Full pattern: (\\d{3})-(\\d{4})'
+  ]
+},
     estimatedMinutes: 18,
     topics: ['capturing groups', 'parentheses', 'group numbering', 'pattern grouping', 'data extraction', 'parsing']
   }
