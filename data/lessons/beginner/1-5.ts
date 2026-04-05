@@ -34,11 +34,15 @@ export const beginnerLessons: Lesson[] = [
         type: 'text',
         content: 'Literal matching is **case-sensitive**. The pattern `Cat` will match "Cat" but not "cat". This matters for exact searches:\n- `Cat` matches: "Cat", "CatDog", "the Cat"\n- `Cat` does NOT match: "cat", "CAT", "cAt"'
       },
-      {
-        type: 'text',
-        content: '**Important:** Literal matching has limitations. It can\'t express "any digit" or "any letter" - that\'s why we\'ll learn character classes in the next lesson. But for exact strings, it\'s perfect!'
-      }
-    ],
+          {
+            type: 'text',
+            content: '**Important:** Literal matching has limitations. It can\'t express "any digit" or "any letter" - that\'s why we\'ll learn character classes in the next lesson. But for exact strings, it\'s perfect!'
+          },
+          {
+            type: 'text',
+            content: '**What\'s Next**: In Lesson 2, you\'ll learn **character classes** - how to match "any one of these characters" instead of just one specific character. This gives you flexibility while keeping patterns precise.'
+          }
+        ],
     exercise: {
       id: 'ex-1',
       instruction: 'Write a pattern that matches the word **"hello"**. The pattern will find "hello" anywhere in the text. Remember: be *exact* with your spelling!',
@@ -51,7 +55,15 @@ export const beginnerLessons: Lesson[] = [
         { input: 'goodbye', shouldMatch: false, explanation: 'No "hello" in this string' },
         { input: 'helo', shouldMatch: false, explanation: 'Missing one "l" - exact match required' },
         { input: 'hellohello', shouldMatch: true, explanation: 'Matches the first "hello" (finds it anywhere)' },
-        { input: 'Hello', shouldMatch: false, explanation: 'Capital H doesn\'t match lowercase h' }
+        { input: 'Hello', shouldMatch: false, explanation: 'Capital H doesn\'t match lowercase h' },
+        { input: '', shouldMatch: false, explanation: 'Empty string contains no "hello"' },
+        { input: 'hello123', shouldMatch: true, explanation: '"hello" found at start of longer string' },
+        { input: '!hello?', shouldMatch: true, explanation: '"hello" found with punctuation around it' },
+        { input: 'heLLo', shouldMatch: false, explanation: 'Mixed case does not match lowercase pattern' },
+        { input: 'say_hello_to_me', shouldMatch: true, explanation: '"hello" found within underscores' },
+        { input: 'hello\nworld', shouldMatch: true, explanation: 'Newline does not prevent match' },
+        { input: 'hello\tworld', shouldMatch: true, explanation: 'Tab does not prevent match' },
+        { input: 'ello', shouldMatch: false, explanation: 'Missing starting h' }
       ],
       hints: [
         'Regex finds patterns anywhere in text - no special syntax needed for simple words',
@@ -118,7 +130,11 @@ export const beginnerLessons: Lesson[] = [
         { input: '123', shouldMatch: false, explanation: 'No vowels in numbers' },
         { input: 'AEIOU', shouldMatch: false, explanation: 'Uppercase vowels not in the class' },
         { input: 'rhythm', shouldMatch: false, explanation: 'No vowels (y is not a vowel here)' },
-        { input: 'a', shouldMatch: true, explanation: 'Single vowel matches' }
+        { input: 'a', shouldMatch: true, explanation: 'Single vowel matches' },
+        { input: '', shouldMatch: false, explanation: 'Empty string has no character to match' },
+        { input: 'a1e2i3o4u5', shouldMatch: true, explanation: 'Matches first vowel "a" among digits' },
+        { input: 'xyz a', shouldMatch: true, explanation: 'Matches vowel "a" at end after consonants' },
+        { input: ' a ', shouldMatch: true, explanation: 'Matches vowel "a" surrounded by spaces' }
       ],
       hints: [
         'Character classes use square brackets: [characters]',
@@ -191,7 +207,11 @@ export const beginnerLessons: Lesson[] = [
         { input: 'no numbers here', shouldMatch: false, explanation: 'No digits in this string' },
         { input: '0', shouldMatch: true, explanation: '0 is a digit' },
         { input: '99 bottles', shouldMatch: true, explanation: 'Matches first digit "9"' },
-        { input: 'price: $19.99', shouldMatch: true, explanation: 'Matches first digit "1"' }
+        { input: 'price: $19.99', shouldMatch: true, explanation: 'Matches first digit "1"' },
+        { input: '', shouldMatch: false, explanation: 'Empty string contains no digit' },
+        { input: '3.14', shouldMatch: true, explanation: 'Matches first digit "3" in decimal' },
+        { input: '5\n', shouldMatch: true, explanation: 'Digit followed by newline still matches' },
+        { input: '\t9', shouldMatch: true, explanation: 'Digit after tab matches' }
       ],
       hints: [
         'Shorthand for digit uses backslash + one letter: \\d',
@@ -262,7 +282,11 @@ export const beginnerLessons: Lesson[] = [
         { input: 'ht', shouldMatch: false, explanation: 'Need exactly 3 characters: h, any char, t' },
         { input: 'h.t', shouldMatch: true, explanation: 'Matches "h.t" - literal dot matches the pattern dot' },
         { input: 'haat', shouldMatch: false, explanation: 'Too long - dot matches ONE character only' },
-        { input: 'HAT', shouldMatch: false, explanation: 'Case-sensitive: H ≠ h' }
+        { input: 'HAT', shouldMatch: false, explanation: 'Case-sensitive: H ≠ h' },
+        { input: 'h\nt', shouldMatch: false, explanation: 'Dot does NOT match newline characters' },
+        { input: 'h\rt', shouldMatch: false, explanation: 'Dot does NOT match carriage return' },
+        { input: 'h-t', shouldMatch: true, explanation: 'Dot matches hyphen' },
+        { input: 'h  t', shouldMatch: false, explanation: 'Two spaces between h and t - dot matches only one character' }
       ],
       hints: [
         'The dot (.) is the wildcard - it matches any single character',
@@ -339,7 +363,11 @@ export const beginnerLessons: Lesson[] = [
         { input: 'hello', shouldMatch: true, explanation: 'Matches first non-digit "h"' },
         { input: '0', shouldMatch: false, explanation: '0 is a digit' },
         { input: 'test123', shouldMatch: true, explanation: 'Matches first non-digit "t"' },
-        { input: '9', shouldMatch: false, explanation: '9 is a digit' }
+        { input: '9', shouldMatch: false, explanation: '9 is a digit' },
+        { input: '', shouldMatch: false, explanation: 'Empty string has no character to match' },
+        { input: '12345', shouldMatch: false, explanation: 'All digits - no non-digit to match' },
+        { input: '1a', shouldMatch: true, explanation: 'Matches non-digit "a" at position 1 (first char is digit)' },
+        { input: '123a', shouldMatch: true, explanation: 'Matches non-digit "a" at the end after digits' }
       ],
       hints: [
         'Use ^ INSIDE brackets at the START for negation: [^...]',

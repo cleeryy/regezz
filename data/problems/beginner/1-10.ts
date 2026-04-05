@@ -17,8 +17,14 @@ export const beginnerProblems: PracticeProblem[] = [
       { id: 'tc2', input: 'say Hello there', shouldMatch: true, expectedGroups: [], explanation: 'Matches "Hello" in the middle' },
       { id: 'tc3', input: 'hello', shouldMatch: false, expectedGroups: [], explanation: '*Lowercase* h does not match' },
       { id: 'tc4', input: 'HELLO', shouldMatch: false, expectedGroups: [], explanation: 'All caps does not match' },
-      { id: 'tc5', input: 'HelloHello', shouldMatch: false, expectedGroups: [], explanation: 'Part of longer word does not match' },
-      { id: 'tc6', input: 'Goodbye', shouldMatch: false, expectedGroups: [], explanation: 'No "Hello" present' }
+      { id: 'tc5', input: 'HelloHello', shouldMatch: true, expectedGroups: [], explanation: 'Matches first "Hello" (overlapping matches)' },
+      { id: 'tc6', input: 'Goodbye', shouldMatch: false, expectedGroups: [], explanation: 'No "Hello" present' },
+      { id: 'tc7', input: 'Hello!', shouldMatch: true, expectedGroups: [], explanation: 'Matches "Hello" before punctuation' },
+      { id: 'tc8', input: 'Hi Hello there', shouldMatch: true, expectedGroups: [], explanation: 'Matches "Hello" in the middle of sentence' },
+      { id: 'tc9', input: 'Hello\nworld', shouldMatch: true, expectedGroups: [], explanation: 'Matches "Hello" before newline' },
+      { id: 'tc10', input: 'HelloHello', shouldMatch: true, expectedGroups: [], explanation: 'Matches first "Hello" (overlapping matches)' },
+      { id: 'tc11', input: 'Say "Hello" to them', shouldMatch: true, expectedGroups: [], explanation: 'Matches "Hello" inside quotes' },
+      { id: 'tc12', input: 'Hello.', shouldMatch: true, expectedGroups: [], explanation: 'Matches "Hello" before period' }
     ],
     hints: [
       'Match the **exact word** with capital H',
@@ -42,7 +48,13 @@ export const beginnerProblems: PracticeProblem[] = [
       { id: 'tc3', input: 'sky', shouldMatch: false, expectedGroups: [], explanation: 'No vowel present' },
       { id: 'tc4', input: 'aeiou', shouldMatch: true, expectedGroups: [], explanation: 'Matches each vowel separately' },
       { id: 'tc5', input: 'xyz', shouldMatch: false, expectedGroups: [], explanation: 'No vowels in this set' },
-      { id: 'tc6', input: 'beautiful', shouldMatch: true, expectedGroups: [], explanation: 'Matches all vowels: e, a, u, i, u' }
+      { id: 'tc6', input: 'beautiful', shouldMatch: true, expectedGroups: [], explanation: 'Matches all vowels: e, a, u, i, u' },
+      { id: 'tc7', input: 'AEIOU', shouldMatch: false, expectedGroups: [], explanation: 'Uppercase vowels do not match (pattern is lowercase only)' },
+      { id: 'tc8', input: 'a1e2i3o4u5', shouldMatch: true, expectedGroups: [], explanation: 'Matches vowels even when interleaved with digits' },
+      { id: 'tc9', input: 'bcdfg', shouldMatch: false, expectedGroups: [], explanation: 'Consonants only - no vowels present' },
+      { id: 'tc10', input: 'a e i o u', shouldMatch: true, expectedGroups: [], explanation: 'Matches each vowel separately, spaces are ignored' },
+      { id: 'tc11', input: '123!@#', shouldMatch: false, expectedGroups: [], explanation: 'Digits and symbols - no vowels' },
+      { id: 'tc12', input: 'y', shouldMatch: false, expectedGroups: [], explanation: 'Letter "y" is not in the vowel set [aeiou]' }
     ],
     hints: [
       'Use a character class',
@@ -66,7 +78,13 @@ export const beginnerProblems: PracticeProblem[] = [
       { id: 'tc3', input: 'abc', shouldMatch: false, expectedGroups: [], explanation: 'No digits present' },
       { id: 'tc4', input: '9', shouldMatch: true, expectedGroups: [], explanation: 'Single digit matches' },
       { id: 'tc5', input: 'a b', shouldMatch: false, expectedGroups: [], explanation: 'Space is not a digit' },
-      { id: 'tc6', input: '0', shouldMatch: true, expectedGroups: [], explanation: 'Zero is a digit' }
+      { id: 'tc6', input: '0', shouldMatch: true, expectedGroups: [], explanation: 'Zero is a digit' },
+      { id: 'tc7', input: '0123456789', shouldMatch: true, expectedGroups: [], explanation: 'All digits 0-9 match individually' },
+      { id: 'tc8', input: 'a1b2c3d4e5', shouldMatch: true, expectedGroups: [], explanation: 'Digits match even when surrounded by letters' },
+      { id: 'tc9', input: '1 2 3 4 5', shouldMatch: true, expectedGroups: [], explanation: 'Digits match despite spaces between them' },
+      { id: 'tc10', input: '3.14', shouldMatch: true, expectedGroups: [], explanation: 'Matches digits 3, 1, 4; dot is not a digit' },
+      { id: 'tc11', input: 'abcdef', shouldMatch: false, expectedGroups: [], explanation: 'Letters only - no digits' },
+      { id: 'tc12', input: '!@#$%', shouldMatch: false, expectedGroups: [], explanation: 'Symbols are not digits' }
     ],
     hints: [
       'Use the digit shorthand',
@@ -90,7 +108,13 @@ export const beginnerProblems: PracticeProblem[] = [
       { id: 'tc3', input: 'c t', shouldMatch: true, expectedGroups: [], explanation: 'Matches "c" + space + "t"' },
       { id: 'tc4', input: 'c3t', shouldMatch: true, expectedGroups: [], explanation: 'Matches "c" + "3" + "t"' },
       { id: 'tc5', input: 'coat', shouldMatch: false, expectedGroups: [], explanation: 'Four letters, pattern only matches three' },
-      { id: 'tc6', input: 'cut', shouldMatch: true, expectedGroups: [], explanation: 'Matches "c" + "u" + "t"' }
+      { id: 'tc6', input: 'cut', shouldMatch: true, expectedGroups: [], explanation: 'Matches "c" + "u" + "t"' },
+      { id: 'tc7', input: 'c.t', shouldMatch: true, expectedGroups: [], explanation: 'Literal dot character matches (dot wildcard matches any char)' },
+      { id: 'tc8', input: 'c\nt', shouldMatch: false, expectedGroups: [], explanation: 'Newline does not match (dot excludes newline by default)' },
+      { id: 'tc9', input: 'c@t', shouldMatch: true, expectedGroups: [], explanation: 'Special character @ matches (any single char)' },
+      { id: 'tc10', input: 'c\tt', shouldMatch: true, expectedGroups: [], explanation: 'Tab character matches (any single char except newline)' },
+      { id: 'tc11', input: 'scat', shouldMatch: true, expectedGroups: [], explanation: 'Matches "cat" within longer word (pattern finds substring)' },
+      { id: 'tc12', input: 'c-t', shouldMatch: true, expectedGroups: [], explanation: 'Hyphen matches (any single char)' }
     ],
     hints: [
       'Use c at the start',
@@ -115,7 +139,13 @@ export const beginnerProblems: PracticeProblem[] = [
       { id: 'tc3', input: 'hello', shouldMatch: false, expectedGroups: [], explanation: 'No uppercase letters' },
       { id: 'tc4', input: 'aBc', shouldMatch: true, expectedGroups: [], explanation: 'Matches "B"' },
       { id: 'tc5', input: '123', shouldMatch: false, expectedGroups: [], explanation: 'Digits are not uppercase letters' },
-      { id: 'tc6', input: 'A', shouldMatch: true, expectedGroups: [], explanation: 'Single uppercase letter matches' }
+      { id: 'tc6', input: 'A', shouldMatch: true, expectedGroups: [], explanation: 'Single uppercase letter matches' },
+      { id: 'tc7', input: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', shouldMatch: true, expectedGroups: [], explanation: 'All uppercase letters match individually' },
+      { id: 'tc8', input: 'aBcDeF', shouldMatch: true, expectedGroups: [], explanation: 'Matches uppercase B, D, F in mixed case string' },
+      { id: 'tc9', input: '123', shouldMatch: false, expectedGroups: [], explanation: 'Digits are not uppercase letters' },
+      { id: 'tc10', input: '!@#$%', shouldMatch: false, expectedGroups: [], explanation: 'Symbols are not uppercase letters' },
+      { id: 'tc11', input: 'abcdef', shouldMatch: false, expectedGroups: [], explanation: 'Lowercase letters do not match' },
+      { id: 'tc12', input: 'A1B2C3', shouldMatch: true, expectedGroups: [], explanation: 'Matches uppercase letters A, B, C among digits' }
     ],
     hints: [
       'Use a character class with a range',
