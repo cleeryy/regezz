@@ -49,7 +49,10 @@ export const creativeLessons: Lesson[] = [
         { input: 'cut', shouldMatch: false, explanation: 'Rejected - u not in [tnr]' },
         { input: 'cab', shouldMatch: false, explanation: 'Rejected - b not in [tnr]' },
         { input: 'ca', shouldMatch: false, explanation: 'Too short' },
-        { input: 'cats', shouldMatch: false, explanation: 'Too long' }
+        { input: 'cats', shouldMatch: false, explanation: 'Too long' },
+        { input: 'c', shouldMatch: false, explanation: 'Too short - only 1 character' },
+        { input: 'caaa', shouldMatch: false, explanation: 'Third char a not in [tnr]' },
+        { input: 'ca ', shouldMatch: false, explanation: 'Space at end not in [tnr]' }
       ],
       hints: [
         'All matches start with "ca"',
@@ -118,7 +121,10 @@ export const creativeLessons: Lesson[] = [
         { input: 'ab', shouldMatch: false, explanation: 'Only 2 characters' },
         { input: 'abca', shouldMatch: false, explanation: '4 characters' },
         { input: 'Abb', shouldMatch: false, explanation: 'A != b (case-sensitive)' },
-        { input: ' a ', shouldMatch: true, explanation: 'Space-space palindrome' }
+        { input: ' a ', shouldMatch: true, explanation: 'Space-space palindrome' },
+        { input: 'a a', shouldMatch: true, explanation: 'a-space-a palindrome' },
+        { input: 'a1a', shouldMatch: true, explanation: 'Digit in middle palindrome' },
+        { input: 'A1A', shouldMatch: true, explanation: 'Uppercase with digit palindrome' }
       ],
       hints: [
         'Use ^ and $ to match entire string',
@@ -185,7 +191,10 @@ export const creativeLessons: Lesson[] = [
         { input: 'abcd', shouldMatch: false, explanation: 'No ABBA pattern' },
         { input: 'abab', shouldMatch: true, explanation: 'a + b + b + a (with greedy match, this could work)' },
         { input: 'aaa', shouldMatch: true, explanation: 'a + (empty?) + (empty?) + a? Depends on greedy behavior' },
-        { input: 'abcba', shouldMatch: false, explanation: 'This is a palindrome, not ABBA (odd length)' }
+        { input: 'abcba', shouldMatch: false, explanation: 'This is a palindrome, not ABBA (odd length)' },
+        { input: 'a!b!b!a', shouldMatch: true, explanation: 'Special characters: a + !b + !b + a' },
+        { input: 'a b b a', shouldMatch: true, explanation: 'Spaces: a + spaceb + spaceb + a' },
+        { input: 'abbaabba', shouldMatch: true, explanation: 'Longer ABBA: ab + ba + ba + ab' }
       ],
       hints: [
         'Use ^ and $ anchors',
@@ -255,7 +264,10 @@ export const creativeLessons: Lesson[] = [
         { input: '/** Documentation */', shouldMatch: true, explanation: 'JSDoc style' },
         { input: '/**\n * Multi-line JSDoc\n */', shouldMatch: true, explanation: 'Multi-line JSDoc' },
         { input: '/* unclosed comment', shouldMatch: false, explanation: 'Missing closing */' },
-        { input: 'let x = "/* not a comment */";', shouldMatch: true, explanation: 'WARNING: False positive! String contains comment syntax' }
+        { input: 'let x = "/* not a comment */";', shouldMatch: true, explanation: 'WARNING: False positive! String contains comment syntax' },
+        { input: '/**/', shouldMatch: true, explanation: 'Empty comment' },
+        { input: '/* *** */', shouldMatch: true, explanation: 'Asterisks inside comment' },
+        { input: '/* outer /* inner */ outer */', shouldMatch: true, explanation: 'Nested comment - lazy matches first */' }
       ],
       hints: [
         'Start with /\\* (escaped asterisk)',
@@ -322,7 +334,10 @@ export const creativeLessons: Lesson[] = [
         { input: '[text only]', shouldMatch: false, explanation: 'Missing URL part' },
         { input: '(https://no-text.com)', shouldMatch: false, explanation: 'Missing text part' },
         { input: '[nested [brackets]](https://fail.com)', shouldMatch: false, explanation: 'Nested brackets break simple pattern' },
-        { input: '[text](url with spaces)', shouldMatch: true, explanation: 'URL with spaces (matches up to first )' }
+        { input: '[text](url with spaces)', shouldMatch: true, explanation: 'URL with spaces (matches up to first )' },
+        { input: '[text]()', shouldMatch: false, explanation: 'Empty URL - requires at least one character' },
+        { input: '[text!@#$%](https://example.com)', shouldMatch: true, explanation: 'Special characters in link text' },
+        { input: '[text](https://example.com/path(with parens))', shouldMatch: true, explanation: 'URL with parentheses - matches up to first ) (limitation)' }
       ],
       hints: [
         'Escape brackets: \\[ and \\]',
@@ -394,7 +409,10 @@ export const creativeLessons: Lesson[] = [
         { input: 'Hello', shouldMatch: false, explanation: 'No emoji' },
         { input: '123', shouldMatch: false, explanation: 'Digits are not emojis (but \\p{Emoji} might match digits!)' },
         { input: '👋🏽', shouldMatch: true, explanation: 'Emoji with skin tone (matches first part)' },
-        { input: '🇺🇸', shouldMatch: true, explanation: 'Flag emoji (matches first regional indicator)' }
+        { input: '🇺🇸', shouldMatch: true, explanation: 'Flag emoji (matches first regional indicator)' },
+        { input: '👨‍👩‍👧‍👦', shouldMatch: true, explanation: 'Family emoji (ZWJ sequence - matches each emoji part)' },
+        { input: '☀️', shouldMatch: true, explanation: 'Sun emoji with variation selector' },
+        { input: '©', shouldMatch: false, explanation: 'Copyright symbol is not an emoji' }
       ],
       hints: [
         'Use \\p{Emoji} with u flag',
@@ -462,7 +480,10 @@ export const creativeLessons: Lesson[] = [
         { input: 'CamelCaseExample', shouldMatch: true, explanation: 'Matches C, C, E' },
         { input: '123ABC', shouldMatch: true, explanation: 'Matches A, B, C' },
         { input: 'UPPER lower UPPER', shouldMatch: true, explanation: 'Matches UPPER and UPPER' },
-        { input: 'aBcDeF', shouldMatch: true, explanation: 'Matches B, D, F' }
+        { input: 'aBcDeF', shouldMatch: true, explanation: 'Matches B, D, F' },
+        { input: 'ÁÉÍÓÚ', shouldMatch: false, explanation: 'Accented uppercase not in ASCII [A-Z]' },
+        { input: 'A.B!C?', shouldMatch: true, explanation: 'Uppercase with punctuation' },
+        { input: 'A1B2C3', shouldMatch: true, explanation: 'Alphanumeric uppercase sequence' }
       ],
       hints: [
         'Use [A-Z] to match uppercase',
