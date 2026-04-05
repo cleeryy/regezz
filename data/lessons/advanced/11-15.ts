@@ -66,7 +66,11 @@ export const advancedLessons: Lesson[] = [
           { input: 'https://', shouldMatch: false, explanation: 'Missing domain' },
           { input: 'httpss://example.com', shouldMatch: false, explanation: 'Double s not valid' },
           { input: 'HTTPS://example.com', shouldMatch: false, explanation: 'Case-sensitive' },
-          { input: 'test.io', shouldMatch: true, explanation: 'Simple domain without protocol' }
+          { input: 'test.io', shouldMatch: true, explanation: 'Simple domain without protocol' },
+          { input: 'sub.example.com', shouldMatch: true, explanation: 'Matches subdomain' },
+          { input: 'test123.org', shouldMatch: true, explanation: 'Numbers in domain work' },
+          { input: 'HTTP://example.com', shouldMatch: false, explanation: 'Uppercase protocol fails' },
+          { input: 'http://localhost:8080', shouldMatch: false, explanation: 'Port and localhost don\'t match pattern' }
         ],
       hints: [
         'Use a non-capturing group for the protocol',
@@ -145,7 +149,11 @@ export const advancedLessons: Lesson[] = [
           { input: 'hello  hello', shouldMatch: true, explanation: 'Multiple spaces still match with \\s+' },
           { input: 'testtest', shouldMatch: false, explanation: 'No space between' },
           { input: 'word Word', shouldMatch: false, explanation: 'Case-sensitive: word ≠ Word' },
-          { input: '123 123', shouldMatch: true, explanation: 'Digits work too: \\w includes digits' }
+          { input: '123 123', shouldMatch: true, explanation: 'Digits work too: \\w includes digits' },
+          { input: 'hello\thello', shouldMatch: true, explanation: 'Tab character counts as whitespace' },
+          { input: 'hello\nhello', shouldMatch: true, explanation: 'Newline also matches \\s' },
+          { input: 'hello, hello', shouldMatch: false, explanation: 'Comma breaks the whitespace requirement' },
+          { input: 'hello-world', shouldMatch: false, explanation: 'Hyphen is not whitespace' }
         ],
       hints: [
         'Capture the first word in a group',
@@ -215,26 +223,30 @@ export const advancedLessons: Lesson[] = [
         content: '**Connection to Lesson 10**: Alternation extends the grouping skills from Lesson 10, showing another powerful use of parentheses - grouping alternatives. Combined with Lesson 11\'s non-capturing groups, you can write `(?:cat|dog)s?` to match multiple words efficiently. Alternation also prepares you for Lesson 14\'s lookarounds, where you\'ll learn to assert conditions without consuming characters.'
       }
     ],
-    exercise: {
-      id: 'ex-13',
-      instruction: 'Write a pattern that matches either "cat" or "cats" (the s is optional)',
-      pattern: 'cats?',
-          testCases: [
-            { input: 'cat', shouldMatch: true, explanation: 'Matches "cat"' },
-            { input: 'cats', shouldMatch: true, explanation: 'Matches "cats"' },
-            { input: 'catss', shouldMatch: false, explanation: 'Two s\'s not allowed' },
-            { input: 'dog', shouldMatch: false, explanation: 'Wrong animal' },
-            { input: 'ca', shouldMatch: false, explanation: 'Incomplete' },
-            { input: 'CATS', shouldMatch: false, explanation: 'Case-sensitive' },
-            { input: 'cat cats', shouldMatch: true, explanation: 'Matches first "cat"' },
-            { input: 'scat', shouldMatch: true, explanation: 'Finds "cat" in "scat"' }
-          ],
-      hints: [
-        'Use the ? to make s optional',
-        'Pattern: cat followed by optional s',
-        'Try: cats?'
-      ]
-    },
+exercise: {
+  id: 'ex-13',
+  instruction: 'Write a pattern using alternation that matches either "cat" or "dog". Use the pipe | operator.',
+  pattern: 'cat|dog',
+  testCases: [
+    { input: 'cat', shouldMatch: true, explanation: 'Matches "cat"' },
+    { input: 'dog', shouldMatch: true, explanation: 'Matches "dog"' },
+    { input: 'cats', shouldMatch: true, explanation: 'Matches "cat" at the start' },
+    { input: 'dogs', shouldMatch: true, explanation: 'Matches "dog" at the start' },
+    { input: 'bird', shouldMatch: false, explanation: 'Not cat or dog' },
+    { input: 'Cat', shouldMatch: false, explanation: 'Case-sensitive - uppercase C' },
+    { input: 'DOG', shouldMatch: false, explanation: 'Case-sensitive - uppercase' },
+    { input: 'catdog', shouldMatch: true, explanation: 'Matches "cat" first (leftmost wins)' },
+    { input: 'dogcat', shouldMatch: true, explanation: 'Matches "dog" first' },
+    { input: 'I have a cat', shouldMatch: true, explanation: 'Finds "cat" in the sentence' },
+    { input: 'the dog barks', shouldMatch: true, explanation: 'Finds "dog" in the sentence' },
+    { input: 'c', shouldMatch: false, explanation: 'Incomplete word' }
+  ],
+  hints: [
+    'Use the pipe | between alternatives',
+    'Pattern: cat|dog',
+    'This matches either word'
+  ]
+},
     estimatedMinutes: 15,
     topics: ['alternation', 'pipe operator', 'OR logic', 'pattern alternatives']
   },
@@ -302,16 +314,20 @@ export const advancedLessons: Lesson[] = [
       id: 'ex-14',
       instruction: 'Write a pattern using positive lookahead that matches a digit only if followed by "px". Example: match "1" in "100px"',
       pattern: '\\d(?=px)',
-          testCases: [
-            { input: '100px', shouldMatch: true, explanation: 'Matches "0" in "100px" (the 0 before px)' },
-            { input: '50px', shouldMatch: true, explanation: 'Matches "0" in "50px"' },
-            { input: '100', shouldMatch: false, explanation: 'No "px" after' },
-            { input: '100em', shouldMatch: false, explanation: 'Followed by "em", not "px"' },
-            { input: 'px100', shouldMatch: false, explanation: '"px" comes before, not after' },
-            { input: '5px', shouldMatch: true, explanation: 'Matches "5" in "5px"' },
-            { input: '10px 20px', shouldMatch: true, explanation: 'Matches "0" before each px' },
-            { input: '123px456', shouldMatch: true, explanation: 'Matches "3" before px' }
-          ],
+           testCases: [
+             { input: '100px', shouldMatch: true, explanation: 'Matches "0" in "100px" (the 0 before px)' },
+             { input: '50px', shouldMatch: true, explanation: 'Matches "0" in "50px"' },
+             { input: '100', shouldMatch: false, explanation: 'No "px" after' },
+             { input: '100em', shouldMatch: false, explanation: 'Followed by "em", not "px"' },
+             { input: 'px100', shouldMatch: false, explanation: '"px" comes before, not after' },
+             { input: '5px', shouldMatch: true, explanation: 'Matches "5" in "5px"' },
+             { input: '10px 20px', shouldMatch: true, explanation: 'Matches "0" before each px' },
+             { input: '123px456', shouldMatch: true, explanation: 'Matches "3" before px' },
+             { input: '5pxs', shouldMatch: true, explanation: 'Matches "5" even if "px" is prefix of longer string' },
+             { input: '5 px', shouldMatch: false, explanation: 'Space between digit and "px" breaks lookahead' },
+             { input: '5PX', shouldMatch: false, explanation: 'Case-sensitive: uppercase "PX" fails' },
+             { input: '5px.', shouldMatch: true, explanation: 'Matches "5" with punctuation after "px"' }
+           ],
       hints: [
         'Use positive lookahead: (?=...)',
         'Put px inside the lookahead',
@@ -390,16 +406,20 @@ export const advancedLessons: Lesson[] = [
       id: 'ex-15',
       instruction: 'Write a Unicode pattern that matches any letter (any language). Use the Unicode property escape',
       pattern: '\\p{L}',
-          testCases: [
-            { input: 'hello', shouldMatch: true, explanation: 'Matches each letter' },
-            { input: 'Привет', shouldMatch: true, explanation: 'Matches Cyrillic letters' },
-            { input: '你好', shouldMatch: true, explanation: 'Matches Chinese characters' },
-            { input: '123', shouldMatch: false, explanation: 'Digits are not letters' },
-            { input: '!@#', shouldMatch: false, explanation: 'Symbols are not letters' },
-            { input: 'مرحبا', shouldMatch: true, explanation: 'Matches Arabic letters' },
-            { input: 'Hello123', shouldMatch: true, explanation: 'Matches letters, not digits' },
-            { input: 'a', shouldMatch: true, explanation: 'Single letter matches' }
-          ],
+           testCases: [
+             { input: 'hello', shouldMatch: true, explanation: 'Matches each letter' },
+             { input: 'Привет', shouldMatch: true, explanation: 'Matches Cyrillic letters' },
+             { input: '你好', shouldMatch: true, explanation: 'Matches Chinese characters' },
+             { input: '123', shouldMatch: false, explanation: 'Digits are not letters' },
+             { input: '!@#', shouldMatch: false, explanation: 'Symbols are not letters' },
+             { input: 'مرحبا', shouldMatch: true, explanation: 'Matches Arabic letters' },
+             { input: 'Hello123', shouldMatch: true, explanation: 'Matches letters, not digits' },
+             { input: 'a', shouldMatch: true, explanation: 'Single letter matches' },
+             { input: 'café', shouldMatch: true, explanation: 'Matches accented Latin letters' },
+             { input: '😀', shouldMatch: false, explanation: 'Emoji are not letters' },
+             { input: 'a1b', shouldMatch: true, explanation: 'Matches letters among digits' },
+             { input: 'Helloمرحبا', shouldMatch: true, explanation: 'Matches mixed Latin and Arabic letters' }
+           ],
       hints: [
         'Use Unicode property for letters',
         'The property is L (for letter)',

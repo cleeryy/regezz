@@ -67,7 +67,10 @@ export const advancedLessons2: Lesson[] = [
         { input: 'user@', shouldMatch: false, explanation: 'Missing domain' },
         { input: 'user@domain', shouldMatch: false, explanation: 'Missing TLD (no dot)' },
         { input: 'user@domain.c', shouldMatch: false, explanation: 'TLD too short (needs 2+ chars)' },
-        { input: 'user name@example.com', shouldMatch: false, explanation: 'Spaces not allowed' }
+        { input: 'user name@example.com', shouldMatch: false, explanation: 'Spaces not allowed' },
+        { input: 'USER@EXAMPLE.COM', shouldMatch: true, explanation: 'Uppercase letters are valid' },
+        { input: 'user@my-domain.com', shouldMatch: true, explanation: 'Hyphens in domain are valid' },
+        { input: 'user123@domain456.com', shouldMatch: true, explanation: 'Numbers in both local and domain' }
       ],
       hints: [
         'Start with ^ and end with $ to match entire string',
@@ -132,14 +135,18 @@ export const advancedLessons2: Lesson[] = [
       instruction: 'Write a pattern with capturing groups that extracts: protocol, domain, and path from a URL. Example: "https://example.com/docs/api" → protocol="https", domain="example.com", path="/docs/api"',
       pattern: '^(https?):\\/\\/([\\w.-]+)(\\/.*)?$',
       testCases: [
-        { input: 'https://example.com', shouldMatch: true, explanation: 'Groups: https, example.com, undefined' },
-        { input: 'http://test.org/path/to/resource', shouldMatch: true, explanation: 'Groups: http, test.org, /path/to/resource' },
-        { input: 'https://sub.domain.co.uk/docs', shouldMatch: true, explanation: 'Groups: https, sub.domain.co.uk, /docs' },
+          { input: 'https://example.com', shouldMatch: true, explanation: 'Groups: https, example.com, undefined' },
+          { input: 'http://test.org/path/to/resource', shouldMatch: true, explanation: 'Groups: http, test.org, /path/to/resource' },
+          { input: 'https://sub.domain.co.uk/docs', shouldMatch: true, explanation: 'Groups: https, sub.domain.co.uk, /docs' },
           { input: 'ftp://files.example.com', shouldMatch: false, explanation: 'ftp protocol not matched by https? (only http or https)' },
-        { input: 'example.com', shouldMatch: false, explanation: 'Missing protocol' },
-        { input: 'https://', shouldMatch: false, explanation: 'Missing domain' },
-        { input: 'https://domain', shouldMatch: true, explanation: 'Groups: https, domain, undefined (no path required)' }
-      ],
+          { input: 'example.com', shouldMatch: false, explanation: 'Missing protocol' },
+          { input: 'https://', shouldMatch: false, explanation: 'Missing domain' },
+          { input: 'https://domain', shouldMatch: true, explanation: 'Groups: https, domain, undefined (no path required)' },
+           { input: 'http://localhost:3000', shouldMatch: true, explanation: 'Groups: http, localhost, undefined (port not captured separately)' },
+           { input: 'https://example.com/path?key=value', shouldMatch: true, explanation: 'Query string included in path group' },
+           { input: 'https://example.com/path#section', shouldMatch: true, explanation: 'Fragment included in path group' },
+           { input: 'HTTP://example.com', shouldMatch: false, explanation: 'Protocol is case-sensitive (only lowercase http/https)' }
+         ],
       hints: [
         'Use ^ to anchor at start',
         'Protocol group: (https?) matches http or https',
@@ -212,8 +219,11 @@ export const advancedLessons2: Lesson[] = [
         { input: '192.168.1', shouldMatch: false, explanation: 'Only 3 octets' },
         { input: '192.168.1.1.5', shouldMatch: false, explanation: 'Too many octets' },
         { input: 'abc.168.1.1', shouldMatch: false, explanation: 'Letters in IP' },
-        { input: 'Error at 192.168.1.1 reported', shouldMatch: true, explanation: 'IP embedded in text' }
-      ],
+         { input: 'Error at 192.168.1.1 reported', shouldMatch: true, explanation: 'IP embedded in text' },
+         { input: '001.002.003.004', shouldMatch: true, explanation: 'Leading zeros are allowed (pattern doesn\'t validate numeric range)' },
+         { input: '256.100.100.100', shouldMatch: true, explanation: 'Matches pattern but invalid IP (octet >255) - shows pattern limitation' },
+         { input: '192.168.1.256', shouldMatch: true, explanation: 'Last octet >255 still matches pattern' }
+       ],
       hints: [
         'Use word boundaries \\b on both sides',
         'Each octet is \\d{1,3} (1-3 digits)',
@@ -294,8 +304,11 @@ export const advancedLessons2: Lesson[] = [
         { input: '123-456-789', shouldMatch: false, explanation: 'Last part has only 3 digits' },
         { input: '12-456-7890', shouldMatch: false, explanation: 'First part has only 2 digits' },
         { input: '+1-123-456-7890', shouldMatch: false, explanation: 'Country code not included in pattern' },
-        { input: '  123-456-7890  ', shouldMatch: false, explanation: 'Has leading/trailing spaces (anchored)' }
-      ],
+         { input: '  123-456-7890  ', shouldMatch: false, explanation: 'Has leading/trailing spaces (anchored)' },
+         { input: '123 4567890', shouldMatch: false, explanation: 'Missing separator between middle and last parts' },
+         { input: '123-456-7890-', shouldMatch: false, explanation: 'Extra separator at end' },
+         { input: '1-123-456-7890', shouldMatch: false, explanation: 'First part must be exactly 3 digits' }
+       ],
       hints: [
         'Use ^ and $ to match entire string',
         'First part: \\d{3} for area code',
@@ -378,8 +391,11 @@ export const advancedLessons2: Lesson[] = [
         { input: 'password', shouldMatch: false, explanation: 'No uppercase, no digit' },
         { input: 'Abc123', shouldMatch: false, explanation: 'Only 6 characters' },
         { input: 'MySecurePass9', shouldMatch: true, explanation: 'Valid: 13 chars, all requirements met' },
-        { input: '        A1', shouldMatch: true, explanation: 'Technically valid (8 spaces + A + 1)' }
-      ],
+         { input: '        A1', shouldMatch: true, explanation: 'Technically valid (8 spaces + A + 1)' },
+         { input: 'P@ssw0rd', shouldMatch: true, explanation: 'Valid with special character' },
+         { input: 'Abc12345', shouldMatch: true, explanation: 'Exactly 8 characters, meets all requirements' },
+         { input: 'Pass word1', shouldMatch: true, explanation: 'Space is allowed (any character)' }
+       ],
       hints: [
         'Start with ^ and end with $',
         'Use (?=.*[a-z]) lookahead for lowercase requirement',
