@@ -12,14 +12,20 @@ export const advancedProblems: PracticeProblem[] = [
     description: 'Write a pattern using non-capturing groups that matches either "http://" or "https://" at the start of a URL. The protocol should be optional.',
     difficulty: 'advanced',
     relatedLessons: ['11'],
-    testCases: [
-      { id: 'tc1', input: 'https://example.com', shouldMatch: true, expectedGroups: [], explanation: 'Matches https://' },
-      { id: 'tc2', input: 'http://example.com', shouldMatch: true, expectedGroups: [], explanation: 'Matches http://' },
-      { id: 'tc3', input: 'example.com', shouldMatch: true, expectedGroups: [], explanation: 'Matches without protocol' },
-      { id: 'tc4', input: 'ftp://example.com', shouldMatch: false, expectedGroups: [], explanation: 'FTP not allowed' },
-      { id: 'tc5', input: 'https://', shouldMatch: false, expectedGroups: [], explanation: 'Missing domain' },
-      { id: 'tc6', input: 'httpss://example.com', shouldMatch: false, expectedGroups: [], explanation: 'Typo in https' }
-    ],
+     testCases: [
+       { id: 'tc1', input: 'https://example.com', shouldMatch: true, expectedGroups: [], explanation: 'Matches https://' },
+       { id: 'tc2', input: 'http://example.com', shouldMatch: true, expectedGroups: [], explanation: 'Matches http://' },
+       { id: 'tc3', input: 'example.com', shouldMatch: true, expectedGroups: [], explanation: 'Matches without protocol' },
+       { id: 'tc4', input: 'ftp://example.com', shouldMatch: false, expectedGroups: [], explanation: 'FTP not allowed' },
+       { id: 'tc5', input: 'https://', shouldMatch: false, expectedGroups: [], explanation: 'Missing domain' },
+       { id: 'tc6', input: 'httpss://example.com', shouldMatch: false, expectedGroups: [], explanation: 'Typo in https' },
+       { id: 'tc7', input: 'HTTP://example.com', shouldMatch: false, expectedGroups: [], explanation: 'Uppercase protocol not matched (case-sensitive)' },
+       { id: 'tc8', input: 'https://example.com/path', shouldMatch: true, expectedGroups: [], explanation: 'Matches with path after domain' },
+       { id: 'tc9', input: 'http://example.com?query=1', shouldMatch: true, expectedGroups: [], explanation: 'Matches with query parameters' },
+       { id: 'tc10', input: 'https://example.com#section', shouldMatch: true, expectedGroups: [], explanation: 'Matches with fragment' },
+       { id: 'tc11', input: 'http://example.com:8080', shouldMatch: true, expectedGroups: [], explanation: 'Matches with port number' },
+       { id: 'tc12', input: 'http/example.com', shouldMatch: false, expectedGroups: [], explanation: 'Missing colon in protocol' }
+     ],
     hints: [
       'Use a non-capturing group for the protocol',
       'Match http or https with s?',
@@ -38,14 +44,20 @@ export const advancedProblems: PracticeProblem[] = [
     description: 'Write a pattern using backreferences that matches a simple HTML tag pair with the same opening and closing tag. Example: "<b>bold</b>" but not "<b>italic</i>"',
     difficulty: 'advanced',
     relatedLessons: ['12'],
-    testCases: [
-      { id: 'tc1', input: '<b>bold</b>', shouldMatch: true, expectedGroups: ['b'], explanation: 'Group 1="b", matches opening and closing' },
-      { id: 'tc2', input: '<p>paragraph</p>', shouldMatch: true, expectedGroups: ['p'], explanation: 'Group 1="p"' },
-      { id: 'tc3', input: '<b>italic</i>', shouldMatch: false, expectedGroups: [], explanation: 'Mismatched tags' },
-      { id: 'tc4', input: '<div><p>nested</p></div>', shouldMatch: true, expectedGroups: ['div'], explanation: 'Matches outer div tag pair' },
-      { id: 'tc5', input: 'plain text', shouldMatch: false, expectedGroups: [], explanation: 'No tags' },
-      { id: 'tc6', input: '<img src="test">', shouldMatch: false, expectedGroups: [], explanation: 'Self-closing tag without closing tag' }
-    ],
+     testCases: [
+       { id: 'tc1', input: '<b>bold</b>', shouldMatch: true, expectedGroups: ['b'], explanation: 'Group 1="b", matches opening and closing' },
+       { id: 'tc2', input: '<p>paragraph</p>', shouldMatch: true, expectedGroups: ['p'], explanation: 'Group 1="p"' },
+       { id: 'tc3', input: '<b>italic</i>', shouldMatch: false, expectedGroups: [], explanation: 'Mismatched tags' },
+       { id: 'tc4', input: '<div><p>nested</p></div>', shouldMatch: true, expectedGroups: ['div'], explanation: 'Matches outer div tag pair' },
+       { id: 'tc5', input: 'plain text', shouldMatch: false, expectedGroups: [], explanation: 'No tags' },
+       { id: 'tc6', input: '<img src="test">', shouldMatch: false, expectedGroups: [], explanation: 'Self-closing tag without closing tag' },
+       { id: 'tc7', input: '<div class="test">content</div>', shouldMatch: true, expectedGroups: ['div'], explanation: 'Tag with attributes - captures tag name only' },
+       { id: 'tc8', input: '<span></span>', shouldMatch: true, expectedGroups: ['span'], explanation: 'Empty tag pair matches' },
+       { id: 'tc9', input: '<DIV>content</div>', shouldMatch: false, expectedGroups: [], explanation: 'Case-sensitive: DIV != div' },
+       { id: 'tc10', input: '<b>bold</b><i>italic</i>', shouldMatch: true, expectedGroups: ['b'], explanation: 'Matches first complete tag pair' },
+       { id: 'tc11', input: '<div><div>nested same</div></div>', shouldMatch: true, expectedGroups: ['div'], explanation: 'Nested same tags - matches outer' },
+       { id: 'tc12', input: '<br/>', shouldMatch: false, expectedGroups: [], explanation: 'Self-closing tag does not have separate closing' }
+     ],
     hints: [
       'Capture the tag name in a group',
       'Match opening tag: <tag>',
@@ -64,14 +76,20 @@ export const advancedProblems: PracticeProblem[] = [
     description: 'Write a pattern using alternation that matches any of these colors: "red", "green", or "blue".',
     difficulty: 'advanced',
     relatedLessons: ['13'],
-    testCases: [
-      { id: 'tc1', input: 'red', shouldMatch: true, expectedGroups: [], explanation: 'Matches "red"' },
-      { id: 'tc2', input: 'green', shouldMatch: true, expectedGroups: [], explanation: 'Matches "green"' },
-      { id: 'tc3', input: 'blue', shouldMatch: true, expectedGroups: [], explanation: 'Matches "blue"' },
-      { id: 'tc4', input: 'yellow', shouldMatch: false, expectedGroups: [], explanation: 'Not in the list' },
-      { id: 'tc5', input: 'redblue', shouldMatch: true, expectedGroups: [], explanation: 'Matches "red" then "blue" separately' },
-      { id: 'tc6', input: 'RED', shouldMatch: false, expectedGroups: [], explanation: 'Case-sensitive' }
-    ],
+     testCases: [
+       { id: 'tc1', input: 'red', shouldMatch: true, expectedGroups: [], explanation: 'Matches "red"' },
+       { id: 'tc2', input: 'green', shouldMatch: true, expectedGroups: [], explanation: 'Matches "green"' },
+       { id: 'tc3', input: 'blue', shouldMatch: true, expectedGroups: [], explanation: 'Matches "blue"' },
+       { id: 'tc4', input: 'yellow', shouldMatch: false, expectedGroups: [], explanation: 'Not in the list' },
+       { id: 'tc5', input: 'redblue', shouldMatch: true, expectedGroups: [], explanation: 'Matches "red" then "blue" separately' },
+       { id: 'tc6', input: 'RED', shouldMatch: false, expectedGroups: [], explanation: 'Case-sensitive' },
+       { id: 'tc7', input: 'Red', shouldMatch: false, expectedGroups: [], explanation: 'Case-sensitive: capital R not matched' },
+       { id: 'tc8', input: 'lightblue', shouldMatch: true, expectedGroups: [], explanation: 'Matches "blue" substring within compound word' },
+       { id: 'tc9', input: 'reddish', shouldMatch: true, expectedGroups: [], explanation: 'Matches "red" substring at start' },
+       { id: 'tc10', input: 'greenhouse', shouldMatch: true, expectedGroups: [], explanation: 'Matches "green" substring at start' },
+       { id: 'tc11', input: 'blues', shouldMatch: true, expectedGroups: [], explanation: 'Matches "blue" substring at start' },
+       { id: 'tc12', input: 'red, green, blue', shouldMatch: true, expectedGroups: [], explanation: 'Matches all three colors with punctuation' }
+     ],
     hints: [
       'Use the pipe operator for alternation',
       'List all three colors',
@@ -88,14 +106,20 @@ export const advancedProblems: PracticeProblem[] = [
     description: 'Write a pattern using positive lookahead that matches digits only when they are followed by "px". Example: match "100" in "100px" but not "100" in "100em".',
     difficulty: 'advanced',
     relatedLessons: ['14'],
-    testCases: [
-      { id: 'tc1', input: '100px', shouldMatch: true, expectedGroups: [], explanation: 'Matches "100" because followed by px' },
-      { id: 'tc2', input: '50px', shouldMatch: true, expectedGroups: [], explanation: 'Matches "50"' },
-      { id: 'tc3', input: '100em', shouldMatch: false, expectedGroups: [], explanation: 'Not followed by px' },
-      { id: 'tc4', input: '200', shouldMatch: false, expectedGroups: [], explanation: 'No unit after' },
-      { id: 'tc5', input: 'px100', shouldMatch: false, expectedGroups: [], explanation: 'px comes before' },
-      { id: 'tc6', input: '75px 100px', shouldMatch: true, expectedGroups: [], explanation: 'Matches both "75" and "100"' }
-    ],
+     testCases: [
+       { id: 'tc1', input: '100px', shouldMatch: true, expectedGroups: [], explanation: 'Matches "100" because followed by px' },
+       { id: 'tc2', input: '50px', shouldMatch: true, expectedGroups: [], explanation: 'Matches "50"' },
+       { id: 'tc3', input: '100em', shouldMatch: false, expectedGroups: [], explanation: 'Not followed by px' },
+       { id: 'tc4', input: '200', shouldMatch: false, expectedGroups: [], explanation: 'No unit after' },
+       { id: 'tc5', input: 'px100', shouldMatch: false, expectedGroups: [], explanation: 'px comes before' },
+       { id: 'tc6', input: '75px 100px', shouldMatch: true, expectedGroups: [], explanation: 'Matches both "75" and "100"' },
+       { id: 'tc7', input: '0px', shouldMatch: true, expectedGroups: [], explanation: 'Edge case: zero matches' },
+       { id: 'tc8', input: '999px', shouldMatch: true, expectedGroups: [], explanation: 'Large number matches' },
+       { id: 'tc9', input: '100PX', shouldMatch: false, expectedGroups: [], explanation: 'Case-sensitive: uppercase PX not matched' },
+       { id: 'tc10', input: '100 px', shouldMatch: false, expectedGroups: [], explanation: 'Space breaks immediate adjacency required by lookahead' },
+       { id: 'tc11', input: '001px', shouldMatch: true, expectedGroups: [], explanation: 'Leading zeros are still digits' },
+       { id: 'tc12', input: '-100px', shouldMatch: false, expectedGroups: [], explanation: 'Negative sign not matched by \\d+' }
+     ],
     hints: [
       'Use positive lookahead: (?=...)',
       'Put px inside the lookahead',
@@ -113,14 +137,20 @@ export const advancedProblems: PracticeProblem[] = [
     description: 'Write a pattern using negative lookbehind that matches digits only when they are NOT preceded by a dollar sign. Example: match "100" but not the "100" in "$100".',
     difficulty: 'advanced',
     relatedLessons: ['14'],
-    testCases: [
-      { id: 'tc1', input: '100', shouldMatch: true, expectedGroups: [], explanation: 'No dollar sign before' },
-      { id: 'tc2', input: '$100', shouldMatch: false, expectedGroups: [], explanation: 'Preceded by dollar sign' },
-      { id: 'tc3', input: 'price: 50', shouldMatch: true, expectedGroups: [], explanation: 'Matches "50"' },
-      { id: 'tc4', input: '$50', shouldMatch: false, expectedGroups: [], explanation: 'Preceded by dollar' },
-      { id: 'tc5', input: 'total $100 and 200', shouldMatch: true, expectedGroups: [], explanation: 'Matches "200" but not "100"' },
-      { id: 'tc6', input: '$$100', shouldMatch: false, expectedGroups: [], explanation: 'Still preceded by dollar' }
-    ],
+     testCases: [
+       { id: 'tc1', input: '100', shouldMatch: true, expectedGroups: [], explanation: 'No dollar sign before' },
+       { id: 'tc2', input: '$100', shouldMatch: false, expectedGroups: [], explanation: 'Preceded by dollar sign' },
+       { id: 'tc3', input: 'price: 50', shouldMatch: true, expectedGroups: [], explanation: 'Matches "50"' },
+       { id: 'tc4', input: '$50', shouldMatch: false, expectedGroups: [], explanation: 'Preceded by dollar' },
+       { id: 'tc5', input: 'total $100 and 200', shouldMatch: true, expectedGroups: [], explanation: 'Matches "200" but not "100"' },
+       { id: 'tc6', input: '$$100', shouldMatch: false, expectedGroups: [], explanation: 'Still preceded by dollar' },
+       { id: 'tc7', input: '$ 100', shouldMatch: true, expectedGroups: [], explanation: 'Space between $ and digits - digits not directly preceded by $' },
+       { id: 'tc8', input: '$100.50', shouldMatch: true, expectedGroups: [], explanation: 'Matches "50" (after decimal point)' },
+       { id: 'tc9', input: '(100)', shouldMatch: true, expectedGroups: [], explanation: 'Digits in parentheses - preceded by "(" not "$"' },
+       { id: 'tc10', input: '#100', shouldMatch: true, expectedGroups: [], explanation: 'Preceded by "#" not "$"' },
+       { id: 'tc11', input: '100$', shouldMatch: true, expectedGroups: [], explanation: 'Dollar after digits, not before' },
+       { id: 'tc12', input: 'price: $100', shouldMatch: false, expectedGroups: [], explanation: 'Only digits are preceded by $' }
+     ],
     hints: [
       'Use negative lookbehind: (?<!...)',
       'Put $ inside the lookbehind',
@@ -138,14 +168,20 @@ export const advancedProblems: PracticeProblem[] = [
     description: 'Write a pattern that validates a basic email address. Format: local@domain.tld where local is word characters with optional dots, domain is word characters, and tld is 2-6 letters.',
     difficulty: 'advanced',
     relatedLessons: ['11', '13', '14'],
-    testCases: [
-      { id: 'tc1', input: 'user@example.com', shouldMatch: true, expectedGroups: [], explanation: 'Valid email' },
-      { id: 'tc2', input: 'test.user@domain.org', shouldMatch: true, expectedGroups: [], explanation: 'Dot in local part' },
-      { id: 'tc3', input: 'user@', shouldMatch: false, expectedGroups: [], explanation: 'Missing domain' },
-      { id: 'tc4', input: '@example.com', shouldMatch: false, expectedGroups: [], explanation: 'Missing local part' },
-      { id: 'tc5', input: 'user@.com', shouldMatch: false, expectedGroups: [], explanation: 'Domain cannot be empty' },
-      { id: 'tc6', input: 'user@example.c', shouldMatch: false, expectedGroups: [], explanation: 'TLD too short (need 2-6 letters)' }
-    ],
+      testCases: [
+        { id: 'tc1', input: 'user@example.com', shouldMatch: true, expectedGroups: [], explanation: 'Valid email' },
+        { id: 'tc2', input: 'test.user@domain.org', shouldMatch: true, expectedGroups: [], explanation: 'Dot in local part' },
+        { id: 'tc3', input: 'user@', shouldMatch: false, expectedGroups: [], explanation: 'Missing domain' },
+        { id: 'tc4', input: '@example.com', shouldMatch: false, expectedGroups: [], explanation: 'Missing local part' },
+        { id: 'tc5', input: 'user@.com', shouldMatch: false, expectedGroups: [], explanation: 'Domain cannot be empty' },
+        { id: 'tc6', input: 'user@example.c', shouldMatch: false, expectedGroups: [], explanation: 'TLD too short (need 2-6 letters)' },
+        { id: 'tc7', input: 'user+tag@example.com', shouldMatch: true, expectedGroups: [], explanation: 'Plus tagging in local part (valid)' },
+        { id: 'tc8', input: 'user@sub.domain.com', shouldMatch: false, expectedGroups: [], explanation: 'Subdomain not supported (only single domain part)' },
+        { id: 'tc9', input: 'user@example.123', shouldMatch: false, expectedGroups: [], explanation: 'Invalid TLD with numbers' },
+        { id: 'tc10', input: 'user@example.toolongtld', shouldMatch: false, expectedGroups: [], explanation: 'TLD exceeds 6 letters' },
+        { id: 'tc11', input: 'user@ example.com', shouldMatch: false, expectedGroups: [], explanation: 'Whitespace after @' },
+        { id: 'tc12', input: 'user@exa mple.com', shouldMatch: false, expectedGroups: [], explanation: 'Whitespace in domain' }
+      ],
     hints: [
       'Local part: \\w+(?:\\.\\w+)*',
       'Then @ symbol',
@@ -190,14 +226,20 @@ export const advancedProblems: PracticeProblem[] = [
     description: 'Write a pattern with capturing groups that matches a US phone number in format "(555) 123-4567". Capture area code, first 3 digits, and last 4 digits separately.',
     difficulty: 'advanced',
     relatedLessons: ['10', '6'],
-    testCases: [
-      { id: 'tc1', input: '(555) 123-4567', shouldMatch: true, expectedGroups: ['555', '123', '4567'], explanation: 'Group1=area, Group2=prefix, Group3=line' },
-      { id: 'tc2', input: '(999) 000-0000', shouldMatch: true, expectedGroups: ['999', '000', '0000'], explanation: 'All zeros work' },
-      { id: 'tc3', input: '555-123-4567', shouldMatch: false, expectedGroups: [], explanation: 'Missing parentheses' },
-      { id: 'tc4', input: '(55) 123-4567', shouldMatch: false, expectedGroups: [], explanation: 'Area code must be 3 digits' },
-      { id: 'tc5', input: '(555) 12-4567', shouldMatch: false, expectedGroups: [], explanation: 'Prefix must be 3 digits' },
-      { id: 'tc6', input: '(555)123-4567', shouldMatch: false, expectedGroups: [], explanation: 'Missing space after area' }
-    ],
+      testCases: [
+        { id: 'tc1', input: '(555) 123-4567', shouldMatch: true, expectedGroups: ['555', '123', '4567'], explanation: 'Group1=area, Group2=prefix, Group3=line' },
+        { id: 'tc2', input: '(999) 000-0000', shouldMatch: true, expectedGroups: ['999', '000', '0000'], explanation: 'All zeros work' },
+        { id: 'tc3', input: '555-123-4567', shouldMatch: false, expectedGroups: [], explanation: 'Missing parentheses' },
+        { id: 'tc4', input: '(55) 123-4567', shouldMatch: false, expectedGroups: [], explanation: 'Area code must be 3 digits' },
+        { id: 'tc5', input: '(555) 12-4567', shouldMatch: false, expectedGroups: [], explanation: 'Prefix must be 3 digits' },
+        { id: 'tc6', input: '(555)123-4567', shouldMatch: false, expectedGroups: [], explanation: 'Missing space after area' },
+        { id: 'tc7', input: '(555) 123.4567', shouldMatch: false, expectedGroups: [], explanation: 'Dot instead of dash' },
+        { id: 'tc8', input: '123-4567', shouldMatch: false, expectedGroups: [], explanation: 'Missing area code entirely' },
+        { id: 'tc9', input: 'Call (555) 123-4567 now', shouldMatch: false, expectedGroups: [], explanation: 'Embedded in text (no full string match)' },
+        { id: 'tc10', input: '(555)123-4567', shouldMatch: false, expectedGroups: [], explanation: 'No space - invalid' },
+        { id: 'tc11', input: '(555)  123-4567', shouldMatch: false, expectedGroups: [], explanation: 'Double space invalid' },
+        { id: 'tc12', input: '(555)-123-4567', shouldMatch: false, expectedGroups: [], explanation: 'Dash after closing parenthesis invalid' }
+      ],
     hints: [
       'Match opening parenthesis: \\(',
       'Group 1: \\d{3} for area code',
