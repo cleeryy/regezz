@@ -442,7 +442,7 @@ export const intermediateLessons: Lesson[] = [
     { input: '555-12345', shouldMatch: true, explanation: 'Matches first 4 digits after dash' },
     { input: 'call 555-1234', shouldMatch: true, explanation: 'Matches phone embedded in text' },
     { input: '555-1234 999-0000', shouldMatch: true, explanation: 'Matches first phone number in sequence' },
-    { input: '(555) 123-4567', shouldMatch: false, explanation: 'Parentheses format not supported (different format)' },
+    { input: '(555) 123-4567', shouldMatch: true, explanation: 'Matches "123-4567" as substring (pattern finds valid format)' },
     { input: '555-123', shouldMatch: false, explanation: 'Number too short (only 3 digits)' }
   ],
   hints: [
