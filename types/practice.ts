@@ -14,6 +14,7 @@ export interface PracticeProblem {
   testCases: TestCase[]
   hints: string[]
   solution: string
+  flags?: string
   explanation: string
   topics: string[]
 }

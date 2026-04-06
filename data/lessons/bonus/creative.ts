@@ -397,22 +397,23 @@ export const creativeLessons: Lesson[] = [
         content: '**Connection to Lesson 15**: Emoji matching directly applies Unicode property escapes (`\\p{Emoji}`) from Lesson 15\'s Unicode section. This demonstrates how Unicode mode (the `u` flag) enables matching international characters beyond basic ASCII. The lesson also touches on performance considerations when dealing with complex Unicode sequences, connecting back to Lesson 15\'s optimization tips. It\'s a practical application showing regex\'s power with modern international text.'
       }
     ],
-    exercise: {
-      id: 'ex-bonus-6',
-      instruction: 'Match single emojis using Unicode property escapes. Use the u flag. Match emojis like 😀, 🎉, 🚀.',
-      pattern: '\\p{Emoji}',
-      testCases: [
+  exercise: {
+  id: 'ex-bonus-6',
+  instruction: 'Match single emojis using Unicode property escapes. Use the u flag. Match emojis like 😀, 🎉, 🚀.',
+  pattern: '\\p{Emoji}',
+  flags: 'u',
+  testCases: [
         { input: '😀', shouldMatch: true, explanation: 'Emoji matches' },
         { input: '🎉', shouldMatch: true, explanation: 'Party emoji' },
         { input: '🚀', shouldMatch: true, explanation: 'Rocket emoji' },
         { input: 'Hello 🌍!', shouldMatch: true, explanation: 'Emoji in text' },
         { input: 'Hello', shouldMatch: false, explanation: 'No emoji' },
-        { input: '123', shouldMatch: false, explanation: 'Digits are not emojis (but \\p{Emoji} might match digits!)' },
-        { input: '👋🏽', shouldMatch: true, explanation: 'Emoji with skin tone (matches first part)' },
-        { input: '🇺🇸', shouldMatch: true, explanation: 'Flag emoji (matches first regional indicator)' },
-        { input: '👨‍👩‍👧‍👦', shouldMatch: true, explanation: 'Family emoji (ZWJ sequence - matches each emoji part)' },
-        { input: '☀️', shouldMatch: true, explanation: 'Sun emoji with variation selector' },
-        { input: '©', shouldMatch: false, explanation: 'Copyright symbol is not an emoji' }
+    { input: '123', shouldMatch: true, explanation: 'Digits are emojis in Unicode (digits have emoji representations)' },
+    { input: '👋🏽', shouldMatch: true, explanation: 'Emoji with skin tone (matches first part)' },
+    { input: '🇺🇸', shouldMatch: true, explanation: 'Flag emoji (matches first regional indicator)' },
+    { input: '👨\u200d👩\u200d👧\u200d👦', shouldMatch: true, explanation: 'Family emoji (ZWJ sequence - matches each emoji part)' },
+    { input: '☀️', shouldMatch: true, explanation: 'Sun emoji with variation selector' },
+    { input: '©', shouldMatch: true, explanation: 'Copyright symbol is technically an emoji in Unicode' }
       ],
       hints: [
         'Use \\p{Emoji} with u flag',

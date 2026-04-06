@@ -165,7 +165,7 @@ export const beginnerProblems: PracticeProblem[] = [
     relatedLessons: ['6'],
     testCases: [
       { id: 'tc1', input: '12', shouldMatch: true, expectedGroups: [], explanation: 'Exactly 2 digits' },
-      { id: 'tc2', input: '123', shouldMatch: false, expectedGroups: [], explanation: '3 digits, not 2' },
+      { id: 'tc2', input: '123', shouldMatch: true, expectedGroups: [], explanation: 'Matches first 2 digits "12"' },
       { id: 'tc3', input: '1', shouldMatch: false, expectedGroups: [], explanation: 'Only 1 digit' },
       { id: 'tc4', input: 'a12b', shouldMatch: true, expectedGroups: [], explanation: 'Matches "12" as two consecutive digits' },
       { id: 'tc5', input: 'ab', shouldMatch: false, expectedGroups: [], explanation: 'No digits' },

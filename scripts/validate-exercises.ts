@@ -16,14 +16,14 @@ interface TestResult {
   errors: { input: string; expected: boolean; actual: boolean; explanation: string }[]
 }
 
-function testRegexPattern(pattern: string, testCases: Array<{ input: string; shouldMatch: boolean; explanation?: string }>): { passed: number; failed: number; errors: Array<{ input: string; expected: boolean; actual: boolean; explanation: string }> } {
+function testRegexPattern(pattern: string, testCases: Array<{ input: string; shouldMatch: boolean; explanation?: string }>, flags?: string): { passed: number; failed: number; errors: Array<{ input: string; expected: boolean; actual: boolean; explanation: string }> } {
   let passed = 0
   let failed = 0
   const errors: Array<{ input: string; expected: boolean; actual: boolean; explanation: string }> = []
-  
+
   try {
-    const regex = new RegExp(pattern)
-    
+    const regex = new RegExp(pattern, flags || '')
+
     for (const tc of testCases) {
       const actual = regex.test(tc.input)
       if (actual === tc.shouldMatch) {
@@ -49,7 +49,7 @@ function testRegexPattern(pattern: string, testCases: Array<{ input: string; sho
       })
     }
   }
-  
+
   return { passed, failed, errors }
 }
 
@@ -66,7 +66,7 @@ function validateLessons(): TestResult[] {
   
   for (const lesson of allLessons) {
     if (lesson.exercise) {
-      const result = testRegexPattern(lesson.exercise.pattern, lesson.exercise.testCases)
+      const result = testRegexPattern(lesson.exercise.pattern, lesson.exercise.testCases, lesson.exercise.flags)
       results.push({
         type: 'lesson',
         id: lesson.id,

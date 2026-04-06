@@ -12,11 +12,12 @@ export interface LessonContentBlock {
 }
 
 export interface LessonExercise {
-id: string
-instruction: string
-pattern: string
-testCases: LessonTestCase[]
-hints: string[]
+  id: string
+  instruction: string
+  pattern: string
+  flags?: string
+  testCases: LessonTestCase[]
+  hints: string[]
 }
 
 export interface LessonTestCase {

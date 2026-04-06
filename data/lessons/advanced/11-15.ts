@@ -402,11 +402,12 @@ exercise: {
         content: '**Connection to Lesson 14**: Unicode and performance concepts complement Lesson 14\'s lookarounds by showing how to write efficient patterns for international text. While lookarounds handle context-sensitive matching, Unicode mode ensures those patterns work correctly with non-ASCII characters. The performance tips help avoid the kind of backtracking issues that can make lookaround-heavy patterns slow. This lesson ties together the advanced techniques from Lessons 11-14 into production-ready patterns.'
       }
     ],
-    exercise: {
-      id: 'ex-15',
-      instruction: 'Write a Unicode pattern that matches any letter (any language). Use the Unicode property escape',
-      pattern: '\\p{L}',
-           testCases: [
+  exercise: {
+  id: 'ex-15',
+  instruction: 'Write a Unicode pattern that matches any letter (any language). Use the Unicode property escape',
+  pattern: '\\p{L}',
+  flags: 'u',
+  testCases: [
              { input: 'hello', shouldMatch: true, explanation: 'Matches each letter' },
              { input: 'Привет', shouldMatch: true, explanation: 'Matches Cyrillic letters' },
              { input: '你好', shouldMatch: true, explanation: 'Matches Chinese characters' },

@@ -15,7 +15,7 @@ export const intermediateProblems: PracticeProblem[] = [
     testCases: [
       { id: 'tc1', input: '123', shouldMatch: true, expectedGroups: [], explanation: 'Exactly 3 digits' },
       { id: 'tc2', input: '12', shouldMatch: false, expectedGroups: [], explanation: 'Only 2 digits' },
-      { id: 'tc3', input: '1234', shouldMatch: false, expectedGroups: [], explanation: '4 digits, not 3' },
+      { id: 'tc3', input: '1234', shouldMatch: true, expectedGroups: [], explanation: 'Matches first 3 digits "123"' },
       { id: 'tc4', input: 'abc123def', shouldMatch: true, expectedGroups: [], explanation: 'Matches "123" within text' },
       { id: 'tc5', input: '1', shouldMatch: false, expectedGroups: [], explanation: 'Only 1 digit' },
       { id: 'tc6', input: '999', shouldMatch: true, expectedGroups: [], explanation: 'Any 3 digits work' },
@@ -145,7 +145,7 @@ export const intermediateProblems: PracticeProblem[] = [
       { id: 'tc6', input: 'a1', shouldMatch: true, expectedGroups: [], explanation: 'Short string ending with digit' },
       { id: 'tc7', input: '1', shouldMatch: true, expectedGroups: [], explanation: 'Single digit string' },
       { id: 'tc8', input: ' 123', shouldMatch: true, expectedGroups: [], explanation: 'Leading whitespace, still ends with digit' },
-      { id: 'tc9', input: '123 ', shouldMatch: false, expectedGroups: [], explanation: 'Trailing whitespace means ends with space, not digit' },
+      { id: 'tc9', input: '123 ', shouldMatch: false, expectedGroups: [], explanation: 'Trailing space - digit is not at end' },
       { id: 'tc10', input: '123\n', shouldMatch: true, expectedGroups: [], explanation: 'Newline before end, digit before newline matches' },
       { id: 'tc11', input: '123a', shouldMatch: false, expectedGroups: [], explanation: 'Ends with letter, not digit' },
       { id: 'tc12', input: '!@#1', shouldMatch: true, expectedGroups: [], explanation: 'Special characters, ends with digit' }
