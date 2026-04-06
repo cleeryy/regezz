@@ -146,7 +146,7 @@ export const intermediateProblems: PracticeProblem[] = [
       { id: 'tc7', input: '1', shouldMatch: true, expectedGroups: [], explanation: 'Single digit string' },
       { id: 'tc8', input: ' 123', shouldMatch: true, expectedGroups: [], explanation: 'Leading whitespace, still ends with digit' },
       { id: 'tc9', input: '123 ', shouldMatch: false, expectedGroups: [], explanation: 'Trailing space - digit is not at end' },
-      { id: 'tc10', input: '123\n', shouldMatch: true, expectedGroups: [], explanation: 'Newline before end, digit before newline matches' },
+      { id: 'tc10', input: '123\n', shouldMatch: false, expectedGroups: [], explanation: '$ does not match before newline without multiline flag' },
       { id: 'tc11', input: '123a', shouldMatch: false, expectedGroups: [], explanation: 'Ends with letter, not digit' },
       { id: 'tc12', input: '!@#1', shouldMatch: true, expectedGroups: [], explanation: 'Special characters, ends with digit' }
     ],
