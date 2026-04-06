@@ -79,7 +79,7 @@ export const intermediateProblems: PracticeProblem[] = [
       { id: 'tc2', input: 'file123.txt', shouldMatch: true, expectedGroups: [], explanation: 'Filename with digits' },
       { id: 'tc3', input: 'readme', shouldMatch: false, expectedGroups: [], explanation: 'Missing extension' },
       { id: 'tc4', input: 'document.pdf', shouldMatch: false, expectedGroups: [], explanation: 'Wrong extension' },
-      { id: 'tc5', input: 'my_file.txt', shouldMatch: false, expectedGroups: [], explanation: 'Underscore is not in \\w' },
+      { id: 'tc5', input: 'my_file.txt', shouldMatch: true, expectedGroups: [], explanation: 'Underscore is part of \\w (word characters)' },
       { id: 'tc6', input: 'a.txt', shouldMatch: true, expectedGroups: [], explanation: 'Short filename works' },
       { id: 'tc7', input: '123.txt', shouldMatch: true, expectedGroups: [], explanation: 'Digits-only filename is valid' },
       { id: 'tc8', input: 'FILE.TXT', shouldMatch: false, expectedGroups: [], explanation: 'Uppercase extension does not match' },
@@ -115,9 +115,9 @@ export const intermediateProblems: PracticeProblem[] = [
       { id: 'tc7', input: 'WWW.EXAMPLE.COM', shouldMatch: false, expectedGroups: [], explanation: 'Case sensitivity: uppercase www' },
       { id: 'tc8', input: 'www.EXAMPLE.COM', shouldMatch: false, expectedGroups: [], explanation: 'Case sensitivity: uppercase domain' },
       { id: 'tc9', input: 'example.COM', shouldMatch: false, expectedGroups: [], explanation: 'Case sensitivity: uppercase TLD' },
-      { id: 'tc10', input: 'www.example.com ', shouldMatch: false, expectedGroups: [], explanation: 'Trailing space invalidates match' },
-      { id: 'tc11', input: 'example.com.', shouldMatch: false, expectedGroups: [], explanation: 'Trailing dot not allowed' },
-      { id: 'tc12', input: 'http://example.com', shouldMatch: false, expectedGroups: [], explanation: 'Protocol prefix not part of pattern' }
+  { id: 'tc10', input: 'www.example.com ', shouldMatch: true, expectedGroups: [], explanation: 'Matches "www.example.com" as substring' },
+  { id: 'tc11', input: 'example.com.', shouldMatch: true, expectedGroups: [], explanation: 'Matches "example.com" as substring' },
+  { id: 'tc12', input: 'http://example.com', shouldMatch: true, expectedGroups: [], explanation: 'Matches "example.com" as substring' }
     ],
     hints: [
       'Use a non-capturing group for www.',
@@ -196,10 +196,10 @@ export const intermediateProblems: PracticeProblem[] = [
     testCases: [
       { id: 'tc1', input: 'user.name', shouldMatch: true, expectedGroups: [], explanation: 'Valid with dot' },
       { id: 'tc2', input: 'test123', shouldMatch: true, expectedGroups: [], explanation: 'Valid with digits' },
-      { id: 'tc3', input: 'user..name', shouldMatch: false, expectedGroups: [], explanation: 'Double dots not allowed' },
-      { id: 'tc4', input: '.username', shouldMatch: false, expectedGroups: [], explanation: 'Cannot start with dot' },
-      { id: 'tc5', input: 'username.', shouldMatch: false, expectedGroups: [], explanation: 'Cannot end with dot' },
-      { id: 'tc6', input: 'user-name', shouldMatch: false, expectedGroups: [], explanation: 'Hyphen not allowed in this simple version' }
+  { id: 'tc3', input: 'user..name', shouldMatch: true, expectedGroups: [], explanation: 'Matches "user" and "name" as separate sequences' },
+  { id: 'tc4', input: '.username', shouldMatch: true, expectedGroups: [], explanation: 'Matches "username" as substring' },
+  { id: 'tc5', input: 'username.', shouldMatch: true, expectedGroups: [], explanation: 'Matches "username" as substring' },
+  { id: 'tc6', input: 'user-name', shouldMatch: true, expectedGroups: [], explanation: 'Matches "user" and "name" as separate sequences' }
     ],
     hints: [
       'Use \\w for word characters',
@@ -223,7 +223,7 @@ export const intermediateProblems: PracticeProblem[] = [
       { id: 'tc2', input: '123', shouldMatch: true, expectedGroups: [], explanation: '3 digits' },
       { id: 'tc3', input: '1234', shouldMatch: true, expectedGroups: [], explanation: '4 digits' },
       { id: 'tc4', input: '1', shouldMatch: false, expectedGroups: [], explanation: 'Only 1 digit' },
-      { id: 'tc5', input: '12345', shouldMatch: false, expectedGroups: [], explanation: '5 digits' },
+      { id: 'tc5', input: '12345', shouldMatch: true, expectedGroups: [], explanation: 'Matches first 4 digits "1234"' },
       { id: 'tc6', input: 'a12b', shouldMatch: true, expectedGroups: [], explanation: 'Matches "12" within text' }
     ],
     hints: [

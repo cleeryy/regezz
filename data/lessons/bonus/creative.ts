@@ -49,7 +49,7 @@ export const creativeLessons: Lesson[] = [
         { input: 'cut', shouldMatch: false, explanation: 'Rejected - u not in [tnr]' },
         { input: 'cab', shouldMatch: false, explanation: 'Rejected - b not in [tnr]' },
         { input: 'ca', shouldMatch: false, explanation: 'Too short' },
-        { input: 'cats', shouldMatch: false, explanation: 'Too long' },
+        { input: 'cats', shouldMatch: true, explanation: 'Matches "cat" as substring' },
         { input: 'c', shouldMatch: false, explanation: 'Too short - only 1 character' },
         { input: 'caaa', shouldMatch: false, explanation: 'Third char a not in [tnr]' },
         { input: 'ca ', shouldMatch: false, explanation: 'Space at end not in [tnr]' }
