@@ -2,12 +2,14 @@
   "name": "regezz",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
-  },
+"scripts": {
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "lint": "eslint",
+  "validate": "npx tsx scripts/validate-exercises.ts",
+  "validate:fix": "npx tsx scripts/fix-test-cases.ts"
+},
   "dependencies": {
     "@eslint-community/regexpp": "^4.12.2",
     "canvas-confetti": "^1.9.4",

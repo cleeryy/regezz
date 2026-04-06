@@ -216,7 +216,7 @@ export const beginnerProblems: PracticeProblem[] = [
       { id: 'tc2', input: 'colour', shouldMatch: true, expectedGroups: [], explanation: 'Matches with the optional u' },
       { id: 'tc3', input: 'colouur', shouldMatch: false, expectedGroups: [], explanation: 'Two u\'s not allowed' },
       { id: 'tc4', input: 'colr', shouldMatch: false, expectedGroups: [], explanation: 'Missing o and u' },
-      { id: 'tc5', input: 'colors', shouldMatch: false, expectedGroups: [], explanation: 'Extra s at end' },
+      { id: 'tc5', input: 'colors', shouldMatch: true, expectedGroups: [], explanation: 'Matches "color" as substring' },
       { id: 'tc6', input: 'Color', shouldMatch: false, expectedGroups: [], explanation: 'Case-sensitive, need lowercase' }
     ],
     hints: [

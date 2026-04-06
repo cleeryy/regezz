@@ -252,7 +252,7 @@ export const intermediateLessons: Lesson[] = [
          { input: 'colour', shouldMatch: true, explanation: 'Matches with the optional u' },
          { input: 'colouur', shouldMatch: false, explanation: 'Two u\'s, pattern only allows zero or one' },
          { input: 'colr', shouldMatch: false, explanation: 'Missing o and u' },
-         { input: 'colors', shouldMatch: false, explanation: 'Extra s at end' },
+         { input: 'colors', shouldMatch: true, explanation: 'Matches "color" as substring' },
          { input: 'COLOR', shouldMatch: false, explanation: 'Case-sensitive' },
          { input: 'colou', shouldMatch: false, explanation: 'Missing r' },
          { input: 'colourful', shouldMatch: true, explanation: 'Matches "colour" part' },

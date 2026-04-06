@@ -1,0 +1,19 @@
+#!/bin/bash
+set -e
+
+echo "Running regex test case validation..."
+
+npx tsx scripts/validate-exercises.ts
+
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "❌ Test case validation failed!"
+  echo "Some test cases have incorrect shouldMatch values."
+  echo ""
+  echo "To see the errors, run: npm run validate:fix"
+  echo "To fix them, manually update the test case files."
+  echo ""
+  exit 1
+fi
+
+echo "✅ All test cases validated successfully!"
