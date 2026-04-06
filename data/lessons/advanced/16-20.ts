@@ -305,7 +305,7 @@ export const advancedLessons2: Lesson[] = [
         { input: '12-456-7890', shouldMatch: false, explanation: 'First part has only 2 digits' },
         { input: '+1-123-456-7890', shouldMatch: false, explanation: 'Country code not included in pattern' },
          { input: '  123-456-7890  ', shouldMatch: false, explanation: 'Has leading/trailing spaces (anchored)' },
-         { input: '123 4567890', shouldMatch: false, explanation: 'Missing separator between middle and last parts' },
+         { input: '123 4567890', shouldMatch: true, explanation: 'Matches with space after first 3 digits (6 digits together matches middle+last)' },
          { input: '123-456-7890-', shouldMatch: false, explanation: 'Extra separator at end' },
          { input: '1-123-456-7890', shouldMatch: false, explanation: 'First part must be exactly 3 digits' }
        ],
@@ -391,7 +391,7 @@ export const advancedLessons2: Lesson[] = [
         { input: 'password', shouldMatch: false, explanation: 'No uppercase, no digit' },
         { input: 'Abc123', shouldMatch: false, explanation: 'Only 6 characters' },
         { input: 'MySecurePass9', shouldMatch: true, explanation: 'Valid: 13 chars, all requirements met' },
-         { input: '        A1', shouldMatch: true, explanation: 'Technically valid (8 spaces + A + 1)' },
+  { input: ' A1', shouldMatch: false, explanation: 'Too short (only 3 characters)' },
          { input: 'P@ssw0rd', shouldMatch: true, explanation: 'Valid with special character' },
          { input: 'Abc12345', shouldMatch: true, explanation: 'Exactly 8 characters, meets all requirements' },
          { input: 'Pass word1', shouldMatch: true, explanation: 'Space is allowed (any character)' }
